@@ -14,7 +14,7 @@ The directory structure is as follows:
 │   │   │   ├── writeup.docx
 ```
 
-Each category will have a directory named after it, containing various CTF challenges related to that specific topic. Inside each challenge directory, there will be a writeup file with a brief description of the challenge, along with any necessary files. If a category does not exist, it can be created following the existing structure.
+Each category will have a specific directory, containing various CTF challenges related to that topic. Inside each challenge directory, there will be a writeup file with a brief description of the challenge, along with any necessary files. If a category does not exist, contact one of the coordinators.
 
 ## How to Contribute 🤔
 
