@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Filmes</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <img src="./assets/pipoca.svg" alt="Ícone Pipoca" class="icon" />
+        Lista de Filmes
+      </h1>
+      <div class="search-container">
+        <button class="search-btn" onclick="toggleSearchInput()">
+          <img
+            src="./assets/search.svg"
+            alt="Ícone Pipoca"
+            class="search-icon"
+          />
+        </button>
+        <input
+          type="text"
+          class="search-input"
+          id="search-input"
+          onfocus="expandSearchInput()"
+          onblur="collapseSearchInput()"
+          placeholder="Pesquise por filme..."
+        />
+      </div>
+    </header>
+    <div class="container" id="movie-list"></div>
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div class="modal" id="modal">
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <button class="close-btn" onclick="closeModal()">Fechar</button>
+    </div>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

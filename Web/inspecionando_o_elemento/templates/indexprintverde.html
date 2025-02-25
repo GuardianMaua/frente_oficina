@@ -1,0 +1,110 @@
+<!-- A senha deve estar por aqui, procure! -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio CTF - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0c1f0a, #1b3e1b, #2c6e49);
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: rgba(12, 31, 10, 0.85);
+            border: 2px solid #4caf50; 
+            border-radius: 10px;
+            padding: 25px 40px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 350px;
+            color: #e8f5e9; 
+        }
+
+        .login-container h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #a5d6a7; 
+        }
+
+        .login-container p {
+            margin-bottom: 15px;
+            color: #c8e6c9; 
+            font-weight: bold;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .login-container label {
+            text-align: left;
+            color: #dcedc8;
+        }
+
+        .login-container input {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #ffffff; 
+            color: #333;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            box-shadow: 0 0 5px #4caf50; 
+        }
+
+        .login-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #66bb6a; 
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-container button:hover {
+            background: #43a047; 
+        }
+
+        .hint {
+            color: #ffccbc; 
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Desafio CTF - PRINT</h1>
+        <p>Descubra a senha correta para acessar a flag.</p>
+        <form method="post" action="/check">
+            <label for="username">Login:</label>
+            <input type="text" id="username" name="username" value="print2025" readonly>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" placeholder="Digite a senha">
+            <button type="submit">Enviar</button>
+        </form>
+                                                                                                              <!-- A senha correta é "facinho123" -->
+    </div>
+</body>
+</html>
