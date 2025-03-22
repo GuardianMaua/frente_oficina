@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import "./Home.css";
-import { useState } from "react";
 
 function Home() {
 
@@ -14,7 +13,7 @@ function Home() {
 
   const handleExploreClick = () => {
     role.current = window.role;
-    {role.current === "admin" ? alert(decodeFlag()) : alert("You do not have permission to access this content.")}
+    role.current === "admin" ? alert(decodeFlag()) : alert("You do not have permission to access this content.");
   };
 
   return (
