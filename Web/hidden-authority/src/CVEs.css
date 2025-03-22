@@ -1,0 +1,62 @@
+.home-container {  text-align: center;  padding: 20px;}.home-container h2 {  font-size: 2rem;  margin-bottom: 10px;}.home-container p {  font-size: 1.2rem;  margin-bottom: 20px;}.home-container button {  background-color: #61dafb;  border: none;  padding: 10px 20px;  font-size: 16px;  color: #282c34;  cursor: pointer;  border-radius: 5px;}.home-container button:hover {  background-color: #21a1f1;}
+
+.about-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.about-container h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.about-container p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.about-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.about-icons div {
+  text-align: center;
+}
+
+.about-icons div p {
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.cves-container {
+  padding: 20px;
+  text-align: left;
+}
+
+.cves-container h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.cves-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cves-container li {
+  background-color: #20232a;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.cves-container li strong {
+  color: #61dafb;
+}
+
+.cves-container li:hover {
+  background-color: #282c34;
+}
