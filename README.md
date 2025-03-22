@@ -1,4 +1,4 @@
-# frente_registro
+# frente_oficina
 
 This repository is intended to store all the CTF challenges created by the entity. Here, you will find various challenges across different cybersecurity categories, each designed to test and enhance specific skills.
 
