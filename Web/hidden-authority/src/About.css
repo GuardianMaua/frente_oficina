@@ -1,0 +1,62 @@
+.home-container {  text-align: center;  padding: 20px;}.home-container h2 {  font-size: 2rem;  margin-bottom: 10px;}.home-container p {  font-size: 1.2rem;  margin-bottom: 20px;}.home-container button {  background-color: #61dafb;  border: none;  padding: 10px 20px;  font-size: 16px;  color: #282c34;  cursor: pointer;  border-radius: 5px;}.home-container button:hover {  background-color: #21a1f1;}
+
+.about-container {
+  text-align: center;
+  padding: 20px;
+  color: white;
+}
+
+.about-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.about-container p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.about-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.about-icons div {
+  text-align: center;
+  max-width: 120px;
+}
+
+.about-icons div p {
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.about-details {
+  margin-top: 30px;
+  text-align: left;
+}
+
+.about-details h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #61dafb;
+}
+
+.about-details p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.about-details ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+.about-details li {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
