@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Home.css";
 import { useState } from "react";
 
 function Home() {
 
   window.role = "user"; 
-  const [role, setRole] = useState("user");
+  const role = useRef("user");
 
   const decodeFlag = () => {
     const encodedFlag = [71, 85, 65, 82, 68, 73, 65, 78, 123, 72, 73, 68, 68, 51, 78, 95, 65, 85, 84, 72, 48, 82, 73, 84, 89, 125];
@@ -13,8 +13,8 @@ function Home() {
   };
 
   const handleExploreClick = () => {
-    setRole(window.role);
-    {role === "admin" ? alert(decodeFlag()) : alert("You do not have permission to access this content.")}
+    role.current = window.role;
+    {role.current === "admin" ? alert(decodeFlag()) : alert("You do not have permission to access this content.")}
   };
 
   return (
