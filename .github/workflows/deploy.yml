@@ -1,0 +1,40 @@
+name: Deploy CTFs Web
+
+on:
+  workflow_dispatch:
+    inputs:
+      selected_ctfs:
+        description: "Lista dos nomes das pastas dos CTFs web que deseja subir, separados por vírgula sem espaço (ex: ctf1,ctf2,ctf3)."
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar AWS CLI
+        run: sudo apt update && sudo apt install -y awscli
+
+      - name: Configurar AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
+
+      - name: Processar CTFs selecionados
+        run: |
+          SELECTED_CTFs="${{ github.event.inputs.selected_ctfs }}"
+          IFS=',' read -ra CTF_ARRAY <<< "$SELECTED_CTFs"
+
+          for CTF in "${CTF_ARRAY[@]}"; do
+            if [ -d "Web/$CTF" ]; then
+              echo "Subindo $CTF..."
+              ls -la Web/$CTF
+              # Aqui você insere o código para subir cada CTF individualmente
+            else
+              echo "Erro: CTF $CTF não encontrado."
+            fi
+          done
