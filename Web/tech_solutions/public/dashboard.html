@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - TechSolutions</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <h1>📊 Painel do Cliente</h1>
+      <a href="/" class="logout-btn">Sair</a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <h2>Bem-vindo, Cliente1!</h2>
+    
+    <div class="user-warning">
+      <!-- Vulnerabilidade: Mensagem que revela estrutura -->
+      <p>⚠️ Apenas administradores podem acessar /admin</p>
+    </div>
+
+    <div class="user-tasks">
+      <h3>Suas Tarefas</h3>
+      <ul class="task-list">
+        <li>Revisar relatório mensal</li>
+        <li>Atualizar informações de perfil</li>
+        <li>Verificar e-mails não lidos</li>
+      </ul>
+    </div>
+
+    <div class="user-settings">
+      <h3>Configurações</h3>
+      <p>Senha atual: <strong>••••••••</strong></p>
+      <!-- Vulnerabilidade: Revela parcialmente a senha real -->
+      <p class="hint">Dica: Sua senha contém "123" no final</p>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2023 TechSolutions - Painel do Usuário</p>
+    </div>
+  </footer>
+</body>
+</html>

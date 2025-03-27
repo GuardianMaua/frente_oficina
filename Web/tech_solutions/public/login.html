@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - TechSolutions</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Acesso Restrito</h2>
+    
+    <!-- VULNERABILIDADE 1: Credenciais em comentário HTML -->
+    <!-- DEBUG: Usar usuário 'cliente1' com senha 'senha123' -->
+    
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Acessar</button>
+    </form>
+
+    <p class="support-info">Problemas de acesso? Contate o suporte.</p>
+  </div>
+</body>
+</html>
