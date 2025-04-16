@@ -23,13 +23,10 @@ jobs:
 
       - name: Configurar AWS CLI
         run: |
-          echo "Configurando credenciais AWS..."
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set aws_session_token ${{ secrets.AWS_SESSION_TOKEN }}
-          aws configure set region ${{ secrets.AWS_REGION }}
-
-          # Verificar se as credenciais estão sendo configuradas corretamente
+          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws configure set aws_session_token "${{ secrets.AWS_SESSION_TOKEN }}"
+          aws configure set region "${{ secrets.AWS_REGION }}"
           aws sts get-caller-identity
 
       - name: Criar instâncias EC2 para CTFs selecionados
@@ -37,38 +34,40 @@ jobs:
           mkdir -p tmp
           echo "${{ github.event.inputs.selected_ctfs }}" | tr ',' '\n' > tmp/ctfs.txt
 
+          > deployed_instances.txt
+
           while read CTF_NAME; do
             CTF_DIR="Web/$CTF_NAME"
             if [ -d "$CTF_DIR" ]; then
               echo "Criando instância para $CTF_NAME..."
 
               INSTANCE_ID=$(aws ec2 run-instances \
-                --image-id ${{ secrets.AWS_AMI_ID }} \
-                --instance-type ${{ secrets.AWS_INSTANCE_TYPE }} \
-                --key-name ${{ secrets.AWS_KEY_PAIR_NAME }} \
-                --security-group-ids ${{ secrets.AWS_SECURITY_GROUP_ID }} \
-                --region ${{ secrets.AWS_REGION }} \
+                --image-id "${{ secrets.AWS_AMI_ID }}" \
+                --instance-type "${{ secrets.AWS_INSTANCE_TYPE }}" \
+                --key-name "${{ secrets.AWS_KEY_PAIR_NAME }}" \
+                --security-group-ids "${{ secrets.AWS_SECURITY_GROUP_ID }}" \
+                --region "${{ secrets.AWS_REGION }}" \
                 --query 'Instances[0].InstanceId' \
                 --output text)
 
               echo "Aguardando a instância iniciar..."
-              aws ec2 wait instance-running --instance-ids $INSTANCE_ID --region ${{ secrets.AWS_REGION }}
+              aws ec2 wait instance-running --instance-ids "$INSTANCE_ID" --region "${{ secrets.AWS_REGION }}"
 
               PUBLIC_IP=$(aws ec2 describe-instances \
-                --instance-ids $INSTANCE_ID \
+                --instance-ids "$INSTANCE_ID" \
                 --query 'Reservations[0].Instances[0].PublicIpAddress' \
-                --output text --region ${{ secrets.AWS_REGION }})
+                --output text --region "${{ secrets.AWS_REGION }}")
 
-              echo "Instância de $CTF_NAME criada com IP: $PUBLIC_IP"
               echo "$CTF_NAME:$INSTANCE_ID:$PUBLIC_IP" >> deployed_instances.txt
+              echo "Instância de $CTF_NAME criada com IP: $PUBLIC_IP"
             else
-              echo "CTF $CTF_NAME não encontrado em Web/"
+              echo "⚠️  CTF $CTF_NAME não encontrado em Web/"
             fi
           done < tmp/ctfs.txt
 
       - name: Criar arquivo da chave privada
         run: |
-          mkdir ~/.ssh
+          mkdir -p ~/.ssh
           echo "${{ secrets.AWS_PRIVATE_KEY }}" > ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
           chmod 600 ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
 
@@ -77,67 +76,64 @@ jobs:
           while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
             echo "Configurando $CTF_NAME em $PUBLIC_IP..."
 
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -euxo pipefail; \
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -euxo pipefail;
 
-              # Instalação do Docker e Git
-              if [ -f /etc/os-release ]; then . /etc/os-release; \
-                if [[ \"\$ID\" == \"amzn\" ]]; then \
-                  sudo yum update -y && sudo yum install -y docker git; \
-                  sudo systemctl enable docker; \
-                  sudo systemctl start docker; \
-                  sudo usermod -aG docker ec2-user; \
-                elif [[ \"\$ID\" == \"ubuntu\" ]]; then \
-                  sudo apt update -y && sudo apt install -y docker.io git; \
-                  sudo systemctl enable docker; \
-                  sudo systemctl start docker; \
-                  sudo usermod -aG docker \$USER; \
-                fi; \
-              fi; \
+              # Detectar SO e instalar Docker e Git
+              if [ -f /etc/os-release ]; then . /etc/os-release;
+                if [[ \$ID == \"amzn\" ]]; then
+                  sudo yum update -y && sudo yum install -y docker git;
+                elif [[ \$ID == \"ubuntu\" ]]; then
+                  sudo apt update -y && sudo apt install -y docker.io git;
+                fi;
+              fi;
 
-              # Instalação do Docker Compose plugin
-              mkdir -p ~/.docker/cli-plugins && \
-              curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose && \
-              chmod +x ~/.docker/cli-plugins/docker-compose && \
-              echo 'Docker Compose instalado com sucesso'; \
+              sudo systemctl enable docker;
+              sudo systemctl start docker;
+              sudo usermod -aG docker \$(whoami);
 
-              # Clonar ou atualizar repositório
-              if [ ! -d ~/CTFs ]; then \
-                git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; \
-              else \
-                cd ~/CTFs && git pull; \
-              fi; \
+              # Instalar Docker Compose plugin
+              mkdir -p ~/.docker/cli-plugins;
+              curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose;
+              chmod +x ~/.docker/cli-plugins/docker-compose;
 
-              cd ~/CTFs/Web/$CTF_NAME; \
+              # Clonar ou atualizar o repositório
+              if [ ! -d ~/CTFs ]; then
+                git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs;
+              else
+                cd ~/CTFs && git pull;
+              fi;
+
+              cd ~/CTFs/Web/$CTF_NAME;
 
               # Backend
-              if [ -d 'backend' ]; then \
-                echo 'Criando rede Docker e subindo backend...'; \
-                sudo docker network create ${CTF_NAME}_network || true; \
-                cd backend; \
-                sudo docker build -t ${CTF_NAME}_backend .; \
-                sudo docker run -d --name ${CTF_NAME}_backend --network ${CTF_NAME}_network -p 3000:3000 ${CTF_NAME}_backend; \
-                cd ..; \
-                BACKEND_URL=http://${CTF_NAME}_backend:3000; \
-              else \
-                BACKEND_URL=\"\"; \
-              fi; \
+              if [ -d 'backend' ]; then
+                echo 'Subindo backend...';
+                sudo docker network create ${CTF_NAME}_network || true;
+                cd backend;
+                sudo docker build -t ${CTF_NAME}_backend .;
+                sudo docker run -d --name ${CTF_NAME}_backend --network ${CTF_NAME}_network -p 3000:3000 ${CTF_NAME}_backend;
+                cd ..;
+                BACKEND_URL=http://${CTF_NAME}_backend:3000;
+              else
+                BACKEND_URL="";
+              fi;
 
               # Preencher .env
-              if [ -f '.env.template' ]; then \
-                cp .env.template .env; \
-                sed -i \"s|BACKEND_URL=.*|BACKEND_URL=\$BACKEND_URL|\" .env; \
-              fi; \
+              if [ -f '.env.template' ]; then
+                cp .env.template .env;
+                sed -i \"s|BACKEND_URL=.*|BACKEND_URL=\$BACKEND_URL|\" .env;
+              fi;
 
               # Frontend
-              echo 'Subindo frontend...'; \
-              if [ -f 'Dockerfile' ]; then \
-                sudo docker build -t ${CTF_NAME}_frontend .; \
-                if [ -d 'backend' ]; then \
-                  sudo docker run -d --name ${CTF_NAME}_frontend --network ${CTF_NAME}_network -p 80:80 ${CTF_NAME}_frontend; \
-                else \
-                  sudo docker run -d --name ${CTF_NAME}_frontend -p 80:80 ${CTF_NAME}_frontend; \
-                fi; \
-              else \
-                echo \"⚠️  Dockerfile não encontrado para o frontend de ${CTF_NAME}. Ignorando frontend.\"; \
-              fi"
+              echo 'Subindo frontend...';
+              if [ -f 'Dockerfile' ]; then
+                sudo docker build -t ${CTF_NAME}_frontend .;
+                if [ -d 'backend' ]; then
+                  sudo docker run -d --name ${CTF_NAME}_frontend --network ${CTF_NAME}_network -p 80:80 ${CTF_NAME}_frontend;
+                else
+                  sudo docker run -d --name ${CTF_NAME}_frontend -p 80:80 ${CTF_NAME}_frontend;
+                fi;
+              else
+                echo '⚠️  Dockerfile não encontrado para o frontend de $CTF_NAME. Ignorando frontend.';
+              fi;"
           done < deployed_instances.txt
