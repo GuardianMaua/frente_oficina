@@ -77,7 +77,7 @@ jobs:
           while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
             echo "Configurando $CTF_NAME em $PUBLIC_IP..."
 
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ubuntu@$PUBLIC_IP << 'EOF'
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ubuntu@$PUBLIC_IP <<EOF
               set -e
               sudo apt update && sudo apt install -y docker.io git
 
