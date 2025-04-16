@@ -70,7 +70,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.AWS_PRIVATE_KEY }}" > ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
           chmod 600 ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
-          echo deployed_instances.txt
+          cat deployed_instances.txt
 
       - name: Configurar e rodar os CTFs nas EC2
         run: |
