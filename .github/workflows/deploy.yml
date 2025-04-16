@@ -9,7 +9,6 @@ on:
 
 jobs:
   deploy:
-    if: github.event.sender.permissions == 'admin' || github.event.sender.login == github.repository_owner
     runs-on: ubuntu-latest
 
     steps:
