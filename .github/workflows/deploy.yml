@@ -113,7 +113,7 @@ jobs:
               if [ -d 'backend' ]; then
                 echo 'Subindo backend...'
                 cd backend
-                docker compose up --build -d || { echo 'Falha ao subir backend'; exit 1; }
+                sudo docker compose up --build -d || { echo 'Falha ao subir backend'; exit 1; }
                 BACKEND_IP=\$(hostname -I | awk '{print \$1}')
                 cd ..
               fi
@@ -125,7 +125,7 @@ jobs:
               fi
 
               echo 'Subindo frontend...'
-              docker compose up --build -d || { echo 'Falha ao subir frontend'; exit 1; }
+              sudo docker compose up --build -d || { echo 'Falha ao subir frontend'; exit 1; }
 
               echo '✅ Deploy finalizado com sucesso para $CTF_NAME'
             "
