@@ -74,67 +74,72 @@ jobs:
 
       - name: Configurar e rodar os CTFs nas EC2
         run: |
-          while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
+          while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP
+          do
             echo "Configurando $CTF_NAME em $PUBLIC_IP..."
 
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -euxo pipefail;
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP '
+              set -euxo pipefail
 
-              # Detectar SO e instalar Docker e Git
+              # Instalação do Docker e Git
               if [ -f /etc/os-release ]; then . /etc/os-release;
-                if [[ \$ID == \"amzn\" ]]; then
-                  sudo yum update -y && sudo yum install -y docker git;
-                elif [[ \$ID == \"ubuntu\" ]]; then
-                  sudo apt update -y && sudo apt install -y docker.io git;
-                fi;
-              fi;
+                if [[ "$ID" == "amzn" ]]; then
+                  sudo yum update -y && sudo yum install -y docker git
+                  sudo systemctl enable docker
+                  sudo systemctl start docker
+                  sudo usermod -aG docker ec2-user
+                elif [[ "$ID" == "ubuntu" ]]; then
+                  sudo apt update -y && sudo apt install -y docker.io git
+                  sudo systemctl enable docker
+                  sudo systemctl start docker
+                  sudo usermod -aG docker $USER
+                fi
+              fi
 
-              sudo systemctl enable docker;
-              sudo systemctl start docker;
-              sudo usermod -aG docker \$(whoami);
+              # Instalação do Docker Compose plugin
+              mkdir -p ~/.docker/cli-plugins &&
+              curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose &&
+              chmod +x ~/.docker/cli-plugins/docker-compose
 
-              # Instalar Docker Compose plugin
-              mkdir -p ~/.docker/cli-plugins;
-              curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose;
-              chmod +x ~/.docker/cli-plugins/docker-compose;
-
-              # Clonar ou atualizar o repositório
+              # Clonar ou atualizar repositório
               if [ ! -d ~/CTFs ]; then
-                git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs;
+                git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs
               else
-                cd ~/CTFs && git pull;
-              fi;
+                cd ~/CTFs && git pull
+              fi
 
-              cd ~/CTFs/Web/$CTF_NAME;
+              cd ~/CTFs/Web/'$CTF_NAME'
 
               # Backend
-              if [ -d 'backend' ]; then
-                echo 'Subindo backend...';
-                sudo docker network create ${CTF_NAME}_network || true;
-                cd backend;
-                sudo docker build -t ${CTF_NAME}_backend .;
-                sudo docker run -d --name ${CTF_NAME}_backend --network ${CTF_NAME}_network -p 3000:3000 ${CTF_NAME}_backend;
-                cd ..;
-                BACKEND_URL=http://${CTF_NAME}_backend:3000;
+              if [ -d "backend" ]; then
+                echo "Criando rede Docker e subindo backend..."
+                sudo docker network create '${CTF_NAME}'_network || true
+                cd backend
+                sudo docker build -t '${CTF_NAME}'_backend .
+                sudo docker run -d --name '${CTF_NAME}'_backend --network '${CTF_NAME}'_network -p 3000:3000 '${CTF_NAME}'_backend
+                cd ..
+                BACKEND_URL=http://'${CTF_NAME}'_backend:3000
               else
-                BACKEND_URL="";
-              fi;
+                BACKEND_URL=""
+              fi
 
               # Preencher .env
-              if [ -f '.env.template' ]; then
-                cp .env.template .env;
-                sed -i \"s|BACKEND_URL=.*|BACKEND_URL=\$BACKEND_URL|\" .env;
-              fi;
+              if [ -f ".env.template" ]; then
+                cp .env.template .env
+                sed -i "s|BACKEND_URL=.*|BACKEND_URL=$BACKEND_URL|" .env
+              fi
 
               # Frontend
-              echo 'Subindo frontend...';
-              if [ -f 'Dockerfile' ]; then
-                sudo docker build -t ${CTF_NAME}_frontend .;
-                if [ -d 'backend' ]; then
-                  sudo docker run -d --name ${CTF_NAME}_frontend --network ${CTF_NAME}_network -p 80:80 ${CTF_NAME}_frontend;
+              echo "Subindo frontend..."
+              if [ -f "Dockerfile" ]; then
+                sudo docker build -t '${CTF_NAME}'_frontend .
+                if [ -d "backend" ]; then
+                  sudo docker run -d --name '${CTF_NAME}'_frontend --network '${CTF_NAME}'_network -p 80:80 '${CTF_NAME}'_frontend
                 else
-                  sudo docker run -d --name ${CTF_NAME}_frontend -p 80:80 ${CTF_NAME}_frontend;
-                fi;
+                  sudo docker run -d --name '${CTF_NAME}'_frontend -p 80:80 '${CTF_NAME}'_frontend
+                fi
               else
-                echo '⚠️  Dockerfile não encontrado para o frontend de $CTF_NAME. Ignorando frontend.';
-              fi;"
+                echo "⚠️  Dockerfile não encontrado para o frontend de ${CTF_NAME}. Ignorando frontend."
+              fi
+            '
           done < deployed_instances.txt
