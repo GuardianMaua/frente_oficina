@@ -77,21 +77,39 @@ jobs:
           while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
             echo "Configurando $CTF_NAME em $PUBLIC_IP..."
 
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -e; \
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -euxo pipefail; \
+
+              # Instalação do Docker e Git
               if [ -f /etc/os-release ]; then . /etc/os-release; \
                 if [[ \"\$ID\" == \"amzn\" ]]; then \
-                  sudo yum update -y && sudo yum install -y docker git; sudo systemctl start docker; sudo usermod -aG docker ec2-user; \
+                  sudo yum update -y && sudo yum install -y docker git; \
+                  sudo systemctl enable docker; \
+                  sudo systemctl start docker; \
+                  sudo usermod -aG docker ec2-user; \
                 elif [[ \"\$ID\" == \"ubuntu\" ]]; then \
-                  sudo apt update -y && sudo apt install -y docker.io git; sudo systemctl start docker; sudo usermod -aG docker \$USER; \
+                  sudo apt update -y && sudo apt install -y docker.io git; \
+                  sudo systemctl enable docker; \
+                  sudo systemctl start docker; \
+                  sudo usermod -aG docker \$USER; \
                 fi; \
               fi; \
+
+              # Instalação do Docker Compose plugin
               mkdir -p ~/.docker/cli-plugins && \
               curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose && \
-              chmod +x ~/.docker/cli-plugins/docker-compose; \
-              # Clonar ou atualizar repositório \
-              if [ ! -d ~/CTFs ]; then git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; else cd ~/CTFs && git pull; fi; \
+              chmod +x ~/.docker/cli-plugins/docker-compose && \
+              echo 'Docker Compose instalado com sucesso'; \
+
+              # Clonar ou atualizar repositório
+              if [ ! -d ~/CTFs ]; then \
+                git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; \
+              else \
+                cd ~/CTFs && git pull; \
+              fi; \
+
               cd ~/CTFs/Web/$CTF_NAME; \
-              
+
+              # Backend
               if [ -d 'backend' ]; then \
                 echo 'Criando rede Docker e subindo backend...'; \
                 sudo docker network create ${CTF_NAME}_network || true; \
@@ -104,16 +122,22 @@ jobs:
                 BACKEND_URL=\"\"; \
               fi; \
 
+              # Preencher .env
               if [ -f '.env.template' ]; then \
                 cp .env.template .env; \
                 sed -i \"s|BACKEND_URL=.*|BACKEND_URL=\$BACKEND_URL|\" .env; \
               fi; \
 
+              # Frontend
               echo 'Subindo frontend...'; \
-              sudo docker build -t ${CTF_NAME}_frontend .; \
-              if [ -d 'backend' ]; then \
-                sudo docker run -d --name ${CTF_NAME}_frontend --network ${CTF_NAME}_network -p 80:80 ${CTF_NAME}_frontend; \
+              if [ -f 'Dockerfile' ]; then \
+                sudo docker build -t ${CTF_NAME}_frontend .; \
+                if [ -d 'backend' ]; then \
+                  sudo docker run -d --name ${CTF_NAME}_frontend --network ${CTF_NAME}_network -p 80:80 ${CTF_NAME}_frontend; \
+                else \
+                  sudo docker run -d --name ${CTF_NAME}_frontend -p 80:80 ${CTF_NAME}_frontend; \
+                fi; \
               else \
-                sudo docker run -d --name ${CTF_NAME}_frontend -p 80:80 ${CTF_NAME}_frontend; \
+                echo \"⚠️  Dockerfile não encontrado para o frontend de ${CTF_NAME}. Ignorando frontend.\"; \
               fi"
           done < deployed_instances.txt
