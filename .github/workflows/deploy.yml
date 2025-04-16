@@ -80,9 +80,9 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -e; \
               if [ -f /etc/os-release ]; then . /etc/os-release; \
                 if [[ \"\$ID\" == \"amzn\" ]]; then \
-                  sudo yum update -y && sudo yum install -y docker git && sudo systemctl start docker && sudo usermod -aG docker ec2-user; \
+                  sudo yum update -y && sudo yum install -y docker git; sudo systemctl start docker; sudo usermod -aG docker ec2-user; \
                 elif [[ \"\$ID\" == \"ubuntu\" ]]; then \
-                  sudo apt update -y && sudo apt install -y docker.io git && sudo systemctl start docker && sudo usermod -aG docker \$USER; \
+                  sudo apt update -y && sudo apt install -y docker.io git; sudo systemctl start docker; sudo usermod -aG docker \$USER; \
                 fi; \
               fi; \
               mkdir -p ~/.docker/cli-plugins && \
@@ -91,7 +91,29 @@ jobs:
               # Clonar ou atualizar repositório \
               if [ ! -d ~/CTFs ]; then git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; else cd ~/CTFs && git pull; fi; \
               cd ~/CTFs/Web/$CTF_NAME; \
-              if [ -d 'backend' ]; then echo 'Subindo backend...'; cd backend; docker compose up --build -d; BACKEND_IP=\$(hostname -I | awk '{print \$1}'); cd ..; fi; \
-              if [ -f '.env.template' ]; then cp .env.template .env; sed -i \"s|BACKEND_URL=.*|BACKEND_URL=http://\$BACKEND_IP:3000|\" .env; fi; \
-              echo 'Subindo frontend...'; docker compose up --build -d"
+              
+              if [ -d 'backend' ]; then \
+                echo 'Criando rede Docker e subindo backend...'; \
+                sudo docker network create ${CTF_NAME}_network || true; \
+                cd backend; \
+                sudo docker build -t ${CTF_NAME}_backend .; \
+                sudo docker run -d --name ${CTF_NAME}_backend --network ${CTF_NAME}_network -p 3000:3000 ${CTF_NAME}_backend; \
+                cd ..; \
+                BACKEND_URL=http://${CTF_NAME}_backend:3000; \
+              else \
+                BACKEND_URL=\"\"; \
+              fi; \
+
+              if [ -f '.env.template' ]; then \
+                cp .env.template .env; \
+                sed -i \"s|BACKEND_URL=.*|BACKEND_URL=\$BACKEND_URL|\" .env; \
+              fi; \
+
+              echo 'Subindo frontend...'; \
+              sudo docker build -t ${CTF_NAME}_frontend .; \
+              if [ -d 'backend' ]; then \
+                sudo docker run -d --name ${CTF_NAME}_frontend --network ${CTF_NAME}_network -p 80:80 ${CTF_NAME}_frontend; \
+              else \
+                sudo docker run -d --name ${CTF_NAME}_frontend -p 80:80 ${CTF_NAME}_frontend; \
+              fi"
           done < deployed_instances.txt
