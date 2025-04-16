@@ -5,6 +5,8 @@ import os
 app = Flask(__name__)
 
 # Página inicial
+
+
 @app.route('/')
 def index():
     return '''
@@ -111,6 +113,7 @@ def index():
 </html>
     '''
 
+
 @app.route('/check', methods=['POST'])
 def check_password():
     user_input = request.form['password']
@@ -120,6 +123,7 @@ def check_password():
     else:
         return "Senha incorreta! Volte e tente novamente."
 
+
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 3000))
+    port = int(os.environ.get("PORT", 80))
     app.run(host='0.0.0.0', port=port, debug=True)

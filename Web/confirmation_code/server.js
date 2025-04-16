@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const app = express();
-const PORT = 3000;
+const PORT = 80;
 
 // Configuração do rate limiting para proteção contra brute force
 const limiter = rateLimit({

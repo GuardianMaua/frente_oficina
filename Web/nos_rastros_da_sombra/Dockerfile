@@ -22,7 +22,7 @@ COPY --from=build /app/build ./build
 COPY app.py ./app.py
 COPY creds.txt ./creds.txt
 
-EXPOSE 3002
+EXPOSE 80
 
-CMD ["gunicorn", "--bind", "0.0.0.0:3002", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
 

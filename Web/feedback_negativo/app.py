@@ -4,6 +4,7 @@ app = Flask(__name__)
 
 FLAG = "GUARDIAN{BUFF3R_OVERFL0W}"
 
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     message = "Pesquisa de satisfação SecureTech."
@@ -92,5 +93,6 @@ def index():
         </html>
     """, message=message)
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3003)
+    app.run(host="0.0.0.0", port=80)

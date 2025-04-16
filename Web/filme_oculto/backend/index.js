@@ -39,7 +39,7 @@ fastify.get("/api/movies/:id", async (request, reply) => {
 
 const start = async () => {
   try {
-    const port = process.env.PORT || 5000;
+    const port = process.env.PORT || 3000;
     await fastify.listen({ port, host: "0.0.0.0" });
     console.log(`Servidor rodando na porta: ${port}`);
   } catch (err) {
