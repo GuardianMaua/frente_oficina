@@ -80,10 +80,18 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -e; \
               if [ -f /etc/os-release ]; then . /etc/os-release; \
                 if [[ \"\$ID\" == \"amzn\" ]]; then \
-                  sudo yum update -y && sudo yum install -y docker git && sudo systemctl start docker && sudo usermod -aG docker ec2-user; \
+                  sudo yum update -y && \
+                  sudo yum install -y docker git && \
+                  sudo systemctl start docker && \
+                  sudo usermod -aG docker ec2-user && \
+                  sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+                  sudo chmod +x /usr/local/bin/docker-compose; \
                 elif [[ \"\$ID\" == \"ubuntu\" ]]; then \
-                  sudo apt update -y && sudo apt install -y docker.io git && sudo systemctl start docker && sudo usermod -aG docker \$USER; \
-                fi; \
+                  sudo apt update -y && \
+                  sudo apt install -y docker.io git docker-compose-plugin && \
+                  sudo systemctl start docker && \
+                  sudo usermod -aG docker \$USER; \
+                fi;
               fi; \
               if [ ! -d ~/CTFs ]; then git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; else cd ~/CTFs && git pull; fi; \
               cd ~/CTFs/Web/$CTF_NAME; \
