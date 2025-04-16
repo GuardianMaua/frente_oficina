@@ -1,0 +1,38 @@
+name: Destroy All EC2 Instances
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Instalar AWS CLI
+        run: |
+          sudo apt update && sudo apt install -y awscli
+
+      - name: Configurar credenciais AWS
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+          aws configure set region "$AWS_DEFAULT_REGION"
+
+      - name: Listar e destruir todas as instâncias EC2
+        run: |
+          INSTANCE_IDS=$(aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].InstanceId' \
+            --output text)
+
+          if [ -z "$INSTANCE_IDS" ]; then
+            echo "Nenhuma instância encontrada."
+          else
+            echo "Encerrando as instâncias: $INSTANCE_IDS"
+            aws ec2 terminate-instances --instance-ids $INSTANCE_IDS
+            aws ec2 wait instance-terminated --instance-ids $INSTANCE_IDS
+            echo "Todas as instâncias foram encerradas com sucesso."
+          fi

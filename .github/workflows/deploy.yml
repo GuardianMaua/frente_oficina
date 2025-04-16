@@ -23,18 +23,77 @@ jobs:
 
       - name: Configurar AWS CLI
         run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set region ${{ secrets.AWS_REGION }}
 
-      - name: Processar CTFs selecionados
+      - name: Criar instâncias EC2 para CTFs selecionados
         run: |
-          SELECTED_CTFs="${{ github.event.inputs.selected_ctfs }}"
-          IFS=',' read -ra CTF_ARRAY <<< "$SELECTED_CTFs"
+          mkdir -p tmp
+          echo "${{ github.event.inputs.selected_ctfs }}" | tr ',' '\n' > tmp/ctfs.txt
 
-          for CTF in "${CTF_ARRAY[@]}"; do
-            if [ -d "Web/$CTF" ]; then
-              echo "Subindo $CTF..."
-              ls -la Web/$CTF
-              # Aqui você insere o código para subir cada CTF individualmente
+          while read CTF_NAME; do
+            CTF_DIR="Web/$CTF_NAME"
+            if [ -d "$CTF_DIR" ]; then
+              echo "Criando instância para $CTF_NAME..."
+
+              INSTANCE_ID=$(aws ec2 run-instances \
+                --image-id ${{ secrets.AWS_AMI_ID }} \
+                --instance-type ${{ secrets.AWS_INSTANCE_TYPE }} \
+                --key-name ${{ secrets.AWS_KEY_PAIR_NAME }} \
+                --security-group-ids ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+                --region ${{ secrets.AWS_REGION }} \
+                --query 'Instances[0].InstanceId' \
+                --output text)
+
+              echo "Aguardando a instância iniciar..."
+              aws ec2 wait instance-running --instance-ids $INSTANCE_ID --region ${{ secrets.AWS_REGION }}
+
+              PUBLIC_IP=$(aws ec2 describe-instances \
+                --instance-ids $INSTANCE_ID \
+                --query 'Reservations[0].Instances[0].PublicIpAddress' \
+                --output text --region ${{ secrets.AWS_REGION }})
+
+              echo "Instância de $CTF_NAME criada com IP: $PUBLIC_IP"
+              echo "$CTF_NAME:$INSTANCE_ID:$PUBLIC_IP" >> deployed_instances.txt
             else
-              echo "Erro: CTF $CTF não encontrado."
+              echo "CTF $CTF_NAME não encontrado em Web/"
             fi
-          done
+          done < tmp/ctfs.txt
+
+      - name: Criar arquivo da chave privada
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" > ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
+          chmod 600 ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
+
+      - name: Configurar e rodar os CTFs nas EC2
+        run: |
+          while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
+            echo "Configurando $CTF_NAME em $PUBLIC_IP..."
+
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ubuntu@$PUBLIC_IP << EOF
+              set -e
+              sudo apt update && sudo apt install -y docker.io git
+
+              git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs || cd ~/CTFs && git pull
+              cd ~/CTFs/Web/$CTF_NAME
+
+              if [ -d "backend" ]; then
+                echo "Subindo backend..."
+                cd backend
+                docker compose up -d --build
+                BACKEND_IP=\$(hostname -I | awk '{print \$1}')
+                cd ..
+              fi
+
+              if [ -f ".env.template" ]; then
+                cp .env.template .env
+                sed -i "s|BACKEND_URL=.*|BACKEND_URL=http://\$BACKEND_IP:3000|" .env
+              fi
+
+              echo "Subindo frontend..."
+              docker compose up -d --build
+            EOF
+
+          done < deployed_instances.txt
