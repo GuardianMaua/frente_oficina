@@ -85,9 +85,14 @@ jobs:
                   sudo apt update -y && sudo apt install -y docker.io git && sudo systemctl start docker && sudo usermod -aG docker \$USER; \
                 fi; \
               fi; \
+              # Instalar Docker Compose plugin (v2) \
+              mkdir -p ~/.docker/cli-plugins && \
+              curl -SL https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose && \
+              chmod +x ~/.docker/cli-plugins/docker-compose; \
+              # Clonar ou atualizar repositório \
               if [ ! -d ~/CTFs ]; then git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; else cd ~/CTFs && git pull; fi; \
               cd ~/CTFs/Web/$CTF_NAME; \
-              if [ -d 'backend' ]; then echo 'Subindo backend...'; cd backend; docker compose up --build; BACKEND_IP=\$(hostname -I | awk '{print \$1}'); cd ..; fi; \
+              if [ -d 'backend' ]; then echo 'Subindo backend...'; cd backend; docker compose up --build -d; BACKEND_IP=\$(hostname -I | awk '{print \$1}'); cd ..; fi; \
               if [ -f '.env.template' ]; then cp .env.template .env; sed -i \"s|BACKEND_URL=.*|BACKEND_URL=http://\$BACKEND_IP:3000|\" .env; fi; \
-              echo 'Subindo frontend...'; docker compose up --build"
+              echo 'Subindo frontend...'; docker compose up --build -d"
           done < deployed_instances.txt
