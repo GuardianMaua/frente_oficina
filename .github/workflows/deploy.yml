@@ -74,11 +74,11 @@ jobs:
 
       - name: Configurar e rodar os CTFs nas EC2
         run: |
-          while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP
-          do
+          # Ler as instâncias implementadas e configurar cada CTF
+          cat deployed_instances.txt | while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
             echo "Configurando $CTF_NAME em $PUBLIC_IP..."
 
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP '
+            ssh -n -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP '
               set -euxo pipefail
 
               # Instalação do Docker e Git
@@ -142,4 +142,4 @@ jobs:
                 echo "⚠️  Dockerfile não encontrado para o frontend de ${CTF_NAME}. Ignorando frontend."
               fi
             '
-          done < deployed_instances.txt
+          done
