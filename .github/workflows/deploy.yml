@@ -72,30 +72,57 @@ jobs:
           echo "${{ secrets.AWS_PRIVATE_KEY }}" > ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
           chmod 600 ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem
 
-      - name: Configurar e rodar os CTFs nas EC2
-        run: |
-          while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
-            echo "Configurando $CTF_NAME em $PUBLIC_IP..."
+          - name: Configurar e rodar os CTFs nas EC2
+          run: |
+            while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
+              echo "Configurando $CTF_NAME em $PUBLIC_IP..."
 
-            ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -e; \
-              if [ -f /etc/os-release ]; then . /etc/os-release; \
-                if [[ \"\$ID\" == \"amzn\" ]]; then \
-                  sudo yum update -y && \
-                  sudo yum install -y docker git && \
-                  sudo systemctl start docker && \
-                  sudo usermod -aG docker ec2-user && \
-                  sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
-                  sudo chmod +x /usr/local/bin/docker-compose; \
-                elif [[ \"\$ID\" == \"ubuntu\" ]]; then \
-                  sudo apt update -y && \
-                  sudo apt install -y docker.io git docker-compose-plugin && \
-                  sudo systemctl start docker && \
-                  sudo usermod -aG docker \$USER; \
-                fi;
-              fi; \
-              if [ ! -d ~/CTFs ]; then git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; else cd ~/CTFs && git pull; fi; \
-              cd ~/CTFs/Web/$CTF_NAME; \
-              if [ -d 'backend' ]; then echo 'Subindo backend...'; cd backend; docker compose up -d --build; BACKEND_IP=\$(hostname -I | awk '{print \$1}'); cd ..; fi; \
-              if [ -f '.env.template' ]; then cp .env.template .env; sed -i \"s|BACKEND_URL=.*|BACKEND_URL=http://\$BACKEND_IP:3000|\" .env; fi; \
-              echo 'Subindo frontend...'; docker compose up -d --build"
-          done < deployed_instances.txt
+              ssh -o StrictHostKeyChecking=no -i ~/.ssh/${{ secrets.AWS_KEY_PAIR_NAME }}.pem ec2-user@$PUBLIC_IP "set -e; \
+                if [ -f /etc/os-release ]; then . /etc/os-release; \
+                  if [[ \"\$ID\" == \"amzn\" ]]; then \
+                    sudo yum update -y && \
+                    sudo yum install -y docker git && \
+                    sudo systemctl start docker && \
+                    sudo usermod -aG docker ec2-user && \
+                    # Instalar Docker Compose V2 como plugin \
+                    sudo mkdir -p /usr/local/lib/docker/cli-plugins && \
+                    sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose && \
+                    sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose && \
+                    # Instalar também como binário independente para compatibilidade \
+                    sudo curl -L \"https://github.com/docker/compose/releases/latest/download/docker-compose-\$(uname -s)-\$(uname -m)\" -o /usr/local/bin/docker-compose && \
+                    sudo chmod +x /usr/local/bin/docker-compose; \
+                  elif [[ \"\$ID\" == \"ubuntu\" ]]; then \
+                    sudo apt update -y && \
+                    sudo apt install -y docker.io git docker-compose-plugin && \
+                    sudo systemctl start docker && \
+                    sudo usermod -aG docker \$USER; \
+                  fi; \
+                fi; \
+                # Verificar instalações \
+                echo '=== Versões instaladas ===' && \
+                docker --version && \
+                docker compose version && \
+                docker-compose --version || true; \
+                # Configurar ambiente \
+                if [ ! -d ~/CTFs ]; then \
+                  git clone https://github.com/GuardianMaua/frente_oficina.git ~/CTFs; \
+                else \
+                  cd ~/CTFs && git pull; \
+                fi; \
+                cd ~/CTFs/Web/$CTF_NAME; \
+                if [ -d 'backend' ]; then \
+                  echo 'Subindo backend...'; \
+                  cd backend; \
+                  docker compose up -d --build; \
+                  BACKEND_IP=\$(hostname -I | awk '{print \$1}'); \
+                  cd ..; \
+                fi; \
+                if [ -f '.env.template' ]; then \
+                  cp .env.template .env; \
+                  sed -i \"s|BACKEND_URL=.*|BACKEND_URL=http://\${BACKEND_IP:-localhost}:3000|\" .env; \
+                fi; \
+                echo 'Subindo frontend...'; \
+                docker compose up -d --build; \
+                echo '=== Containers em execução ===' && \
+                docker ps"
+            done < deployed_instances.txt
