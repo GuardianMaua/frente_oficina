@@ -114,7 +114,7 @@ jobs:
               echo "Subindo aplicação..."
               if [ -f "Dockerfile" ]; then
                 sudo docker build -t '${CTF_NAME}' .
-                sudo docker run -d --name '${CTF_NAME}' --network '${CTF_NAME}'_network -p 80:80 '${CTF_NAME}'
+                sudo docker run -d --name '${CTF_NAME}' -p 80:80 '${CTF_NAME}'
               else
                 echo "⚠️  Dockerfile não encontrado para a aplicação de ${CTF_NAME}. Ignorando aplicação."
               fi
