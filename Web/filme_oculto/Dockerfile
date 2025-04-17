@@ -1,9 +1,21 @@
-FROM nginx:alpine
+# Etapa de build (caso queira futuramente usar TS ou bundler)
+FROM node:20-alpine AS build
 
-COPY . /usr/share/nginx/html
+WORKDIR /app
 
-COPY default.conf /etc/nginx/conf.d/
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY --from=build /app .
+
+ENV PORT=80
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "index.js"]
