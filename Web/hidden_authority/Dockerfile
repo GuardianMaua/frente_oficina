@@ -1,21 +1,19 @@
-# Etapa de build (caso queira futuramente usar TS ou bundler)
 FROM node:20-alpine AS build
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json* ./
 RUN npm install
 
 COPY . .
+RUN npm run build
 
-FROM node:20-alpine
+FROM nginx:alpine
 
-WORKDIR /app
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build /app .
-
-ENV PORT=80
+COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD ["node", "server.js"]
+CMD ["nginx", "-g", "daemon off;"]
