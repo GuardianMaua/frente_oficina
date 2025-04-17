@@ -9,6 +9,6 @@ COPY . .
 
 ENV PORT=80
 
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
 
 EXPOSE 80
