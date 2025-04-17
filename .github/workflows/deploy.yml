@@ -137,3 +137,9 @@ jobs:
               fi
             '
           done
+      - name: Exibir IPs públicos dos CTFs
+        run: |
+          echo "📍 Lista de CTFs implantados com seus respectivos IPs públicos:"
+          cat deployed_instances.txt | while IFS=: read -r CTF_NAME INSTANCE_ID PUBLIC_IP; do
+            echo "- $CTF_NAME → $PUBLIC_IP"
+          done
