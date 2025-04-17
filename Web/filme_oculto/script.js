@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3000"
+const apiUrl = "http://filme_oculto_backend:3000"
 
 window.fetchMovies = async () => {
   try {
