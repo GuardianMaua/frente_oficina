@@ -110,13 +110,30 @@ jobs:
 
               cd ~/CTFs/Web/'$CTF_NAME'
 
-
-              echo "Subindo aplicação..."
-              if [ -f "Dockerfile" ]; then
-                sudo docker build -t '${CTF_NAME}' .
-                sudo docker run -d --name '${CTF_NAME}' -p 80:80 '${CTF_NAME}'
+              # Backend
+              if [ -d "backend" ]; then
+                echo "Criando rede Docker e subindo backend..."
+                sudo docker network create '${CTF_NAME}'_network || true
+                cd backend
+                sudo docker build -t '${CTF_NAME}'_backend .
+                sudo docker run -d --name '${CTF_NAME}'_backend --network '${CTF_NAME}'_network -p 3000:3000 '${CTF_NAME}'_backend
+                cd ..
+                BACKEND_URL=http://'${CTF_NAME}'_backend:3000
               else
-                echo "⚠️  Dockerfile não encontrado para a aplicação de ${CTF_NAME}. Ignorando aplicação."
+                BACKEND_URL=""
+              fi
+
+              # Frontend
+              echo "Subindo frontend..."
+              if [ -f "Dockerfile" ]; then
+                sudo docker build -t '${CTF_NAME}'_frontend .
+                if [ -d "backend" ]; then
+                  sudo docker run -d --name '${CTF_NAME}'_frontend --network '${CTF_NAME}'_network -p 80:80 '${CTF_NAME}'_frontend
+                else
+                  sudo docker run -d --name '${CTF_NAME}'_frontend -p 80:80 '${CTF_NAME}'_frontend
+                fi
+              else
+                echo "⚠️  Dockerfile não encontrado para o frontend de ${CTF_NAME}. Ignorando frontend."
               fi
             '
           done
