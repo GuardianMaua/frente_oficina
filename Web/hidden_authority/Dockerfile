@@ -1,5 +1,5 @@
-# Etapa 1: Build da aplicação
-FROM node:20-alpine AS builder
+# Etapa de build (caso queira futuramente usar TS ou bundler)
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -8,16 +8,14 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+FROM node:20-alpine
 
-FROM nginx:alpine
+WORKDIR /app
 
-RUN rm -rf /etc/nginx/conf.d/default.conf
+COPY --from=build /app .
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=builder /app/build /usr/share/nginx/html
+ENV PORT=80
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]
