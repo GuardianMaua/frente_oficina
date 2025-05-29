@@ -97,7 +97,7 @@ def index():
 </head>
 <body>
     <div class="login-container">
-        <h1>Desafio CTF - PRINT</h1>
+        <h1>Desafio CTF MAUACTF</h1>
         <p>Descubra a senha correta para acessar a flag.</p>
         <form method="post" action="/check">
             <label for="username">Login:</label>
