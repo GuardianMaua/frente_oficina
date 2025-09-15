@@ -5,6 +5,7 @@ on:
 
 jobs:
   destroy:
+    if: ${{ github.actor == 'EnricoSantarelli' }}
     runs-on: ubuntu-latest
 
     steps:
