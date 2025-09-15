@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    if: ${{ contains(['EnricoSantarelli'], github.actor) }}
+    if: ${{ github.actor == 'EnricoSantarelli' }}
     runs-on: ubuntu-latest
 
     steps:
