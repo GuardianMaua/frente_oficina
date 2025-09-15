@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.actor == 'EnricoSantarelli' }}
+    if: ${{ contains(fromJson('["EnricoSantarelli","cassmatheus"]'), github.actor) }}
     runs-on: ubuntu-latest
 
     steps:
