@@ -5,7 +5,7 @@ on:
 
 jobs:
   destroy:
-    if: ${{ contains(fromJson('["EnricoSantarelli","cassmatheus"]'), github.actor) }}
+    if: ${{ contains(fromJson('["EnricoSantarelli","cassmatheuss"]'), github.actor) }}
     runs-on: ubuntu-latest
 
     steps:
