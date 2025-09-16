@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro de usuário</title>
+  </head>
+  <body>
+    <h1>Cadastro de usuário</h1>
+    <form id="formCadastro">
+      <label type="text">Nome: <input type="text" id="nome" required /></label>
+      <label type="text"
+        >Email: <input type="text" id="email" required
+      /></label>
+      <label type="text"
+        >Senha: <input type="text" id="senha" required
+      /></label>
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <p id="texto"></p>
+
+    <script>
+      const form = document.getElementById("formCadastro");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const nome = document.getElementById("nome").value;
+        const email = document.getElementById("email").value;
+        const senha = document.getElementById("senha").value;
+
+        const resposta = await fetch("http://localhost:3000/usuarios", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            senha,
+          }),
+        });
+
+        const dados = await resposta.json();
+
+        const texto = document.getElementById("texto");
+
+        texto.textContent =
+          "Usuário " + dados.email + " cadastrado com sucesso!";
+      });
+    </script>
+  </body>
+</html>
