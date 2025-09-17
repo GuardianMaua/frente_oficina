@@ -25,7 +25,7 @@
             const email = document.getElementById("email").value
             const senha = document.getElementById("senha").value
 
-            const resposta = await fetch('http://localhost:3000/usuarios', {
+            const resposta = await fetch('http://localhost:80/usuarios', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
