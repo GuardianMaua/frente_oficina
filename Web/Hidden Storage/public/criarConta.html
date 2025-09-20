@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Criar Conta</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Criar Conta</h2>
+      <form id="registerForm">
+        <input type="text" id="username" placeholder="Usuário" required />
+        <input type="password" id="password" placeholder="Senha" required />
+        <button type="submit">Registrar</button>
+      </form>
+      <p id="error-message" class="error-text"></p>
+      <p>Já tem uma conta? <a href="/">Faça Login</a></p>
+    </div>
+
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+          const res = await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            alert("Conta criada! Agora faça login.");
+            window.location.href = "/";
+          } else {
+            document.getElementById("error-message").textContent = data.error;
+          }
+        });
+    </script>
+  </body>
+</html>
