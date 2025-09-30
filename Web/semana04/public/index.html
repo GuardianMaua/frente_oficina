@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>⚑ CTF Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-noise"></div>
+
+  <header class="site-header container">
+    <div class="brand">
+      <span class="flag">⚑</span>
+      <span class="title">CTF Lab</span>
+    </div>
+    <nav class="nav">
+      <a class="nav-link" href="#dados">Enviar Dados</a>
+      <a class="nav-link" href="#mensagem">Mensagem</a>
+      <a class="nav-link" href="#console">Console</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero card">
+      <h1>Bem-vindo ao laboratório CTF</h1>
+      <p>Faça o recon, eleve privilégios e capture a flag. Tudo <strong>apenas pelo navegador</strong> ✦</p>
+      <div class="hint">Dica: pistas em <code>/robots.txt</code> e <code>/.well-known/ctf</code>.</div>
+    </section>
+
+    <section id="dados" class="grid">
+      <form id="formExample" class="card form">
+        <h2>Envie seus dados</h2>
+
+        <div class="field">
+          <input type="text" id="name" name="name" required placeholder=" " autocomplete="name" />
+          <label for="name">Nome</label>
+          <small class="help">Seu codinome também serve.</small>
+        </div>
+
+        <div class="field">
+          <input type="email" id="email" name="email" required placeholder=" " autocomplete="email" />
+          <label for="email">Email</label>
+          <small class="help">Usaremos apenas para o desafio.</small>
+        </div>
+
+        <!-- Campo extra para o CTF -->
+        <div class="field">
+          <input type="text" id="role" name="role" placeholder=" " />
+          <label for="role">Role (opcional)</label>
+          <small class="help">Algumas rotas elevam privilégios temporariamente…</small>
+        </div>
+
+        <button id="btnExample" type="submit" class="btn">
+          <span class="btn-text">Enviar</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <form id="formMensagem" class="card form">
+        <h2 id="mensagem">Enviar uma mensagem</h2>
+
+        <div class="field">
+          <input type="text" id="nome" name="nome" required placeholder=" " />
+          <label for="nome">Nome</label>
+          <small class="help">Como deseja ser chamado.</small>
+        </div>
+
+        <div class="field">
+          <textarea id="mensagem" name="mensagem" rows="5" required placeholder=" "></textarea>
+          <label for="mensagem">Mensagem</label>
+          <small class="help">Pode conter pistas, hashes ou payloads.</small>
+        </div>
+
+        <button id="btnMensagem" type="submit" class="btn">
+          <span class="btn-text">Enviar Mensagem</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+    </section>
+
+    <section class="card" id="console">
+      <div class="card-title-row">
+        <h2>Console</h2>
+        <button id="btnClear" class="btn btn-ghost" type="button" aria-label="Limpar console">Limpar</button>
+      </div>
+      <pre class="console" aria-live="polite"><code>⟶ Console iniciado. Aguardando ações…</code></pre>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <p>Feito para <strong>CTF</strong>. Respeite o ambiente de teste. ✦</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
