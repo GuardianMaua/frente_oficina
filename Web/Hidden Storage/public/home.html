@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 id="welcome">Carregando...</h2>
+      <p id="clue">A verdade nem sempre está na superfície.</p>
+      <p id="flag-container" style="color: #27ae60; font-weight: bold"></p>
+      <form id="logoutForm">
+        <button type="submit">Sair</button>
+      </form>
+    </div>
+
+    <script>
+      async function loadWelcome() {
+        const res = await fetch("/api/welcome");
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById("welcome").textContent = data.hello;
+
+          if (data.hiddenClue) {
+            console.log(`🕵️‍♂️ Uma dica para você: ${data.hiddenClue}`);
+          }
+
+          if (data.flag) {
+            document.getElementById("clue").style.display = "none";
+            document.getElementById("flag-container").textContent = data.flag;
+          }
+        } else {
+          window.location.href = "/";
+        }
+      }
+
+      document
+        .getElementById("logoutForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          await fetch("/api/logout", { method: "POST" });
+          window.location.href = "/";
+        });
+
+      loadWelcome();
+    </script>
+  </body>
+</html>
