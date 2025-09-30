@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Informações da Conta</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 350px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px; 
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .account-link {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #007bff;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .account-link:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .logout-link {
+            background-color: #dc3545;
+        }
+
+        .logout-link:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h2>Informações da sua conta</h2>
+    <a href="/meus-dados" class="account-link">Meus dados</a>
+    <a href="/alterar-dados" class="account-link">Alterar dados</a>
+    <a href="/configuracoes" class="account-link">Configurações</a>
+    <a href="/login.html" class="account-link logout-link">Sair</a>
+</body>
+</html>

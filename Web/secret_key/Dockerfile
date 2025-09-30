@@ -1,0 +1,20 @@
+# 1. Escolher a base da minha imagem
+FROM node:20-alpine
+
+# 2. Definir o diretório de trabalho dentro do container
+WORKDIR /app
+
+# 3. Copiar os arquivos do projeto para dentro do container
+COPY package*.json ./
+
+# 4. Instalar dependências
+RUN npm install
+
+# 5. Copiar o resto do código
+COPY . .
+
+# 6. Expor porta (precisa ser 80)
+EXPOSE 80
+
+# 7. Definir o comando padrão ao rodar o container
+CMD [ "node", "index.js" ]
