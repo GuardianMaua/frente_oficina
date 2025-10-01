@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo Guardião</title>
+    <style>
+        /* Resets básicos e estilos para o corpo da página */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #ffffff;
+        }
+
+        /* Estilos do cabeçalho (a faixa azul superior) */
+        .header {
+            background-color: #483d8b;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+
+        /* Estilos do título principal (alinhado à direita) */
+        .header h1 {
+            margin: 0;
+            margin-left: auto; /* Empurra o h1 para a direita */
+            margin-right: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            font-size: 2.5em;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* Estilos para a área de conteúdo principal */
+        .main-content {
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Estilos para o botão */
+        .download-button {
+            display: inline-block;
+            background-color: #483d8b;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1em;
+            margin-top: 30px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Efeito ao passar o mouse sobre o botão */
+        .download-button:hover {
+            background-color: #3a306f;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="img-placeholder">
+        <img src="avatar.png" alt="Logo" style="display:none;">
+        </div>
+        <h1>Bem-vindo Guardião!</h1>
+    </header>
+
+    <main class="main-content">
+        <p>Esse é um CTF feito por Vinícius Takashi, envolvendo conceitos de brute force básicos, então aproveite e para dar continuidade, baixe a wordlist! </p>
+        <a href="/files/wordlist.txt" class="download-button">Baixe a wordlist!</a>
+    </main>
+
+</body>
+</html>
