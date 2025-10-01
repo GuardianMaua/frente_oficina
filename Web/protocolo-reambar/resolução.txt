@@ -1,0 +1,3 @@
+Olhando o codigo fonte, tem um comentario dizendo pra ir até URL/REambar.
+Indo lá, ele tem outro comentario dizendo para não usar os nomes dos dinossauros como senha, além de citar o dinossauro Scarlectus.
+Usando esse nome como senha ele habilita o protocolo e nos fornece a flag.

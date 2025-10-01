@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Alerta de Contenção</title>
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.2/dist/terminal.min.css" />
+  <style>
+    body { 
+      --primary-color: #ff4136; 
+      --background-color: #1a1a1a;
+      color: #f0f0f0; 
+    }
+    h1 {
+        color: #ff0000 !important;
+    }
+    .terminal-prompt {
+        color: #f0f0f0 !important; 
+    }
+    .button-group {
+        margin-top: 2rem;
+        display: flex; /* Para os botões ficarem lado a lado */
+        gap: 1rem; /* Espaço entre os botões */
+        justify-content: center; /* Centraliza os botões */
+    }
+    .button-group .btn {
+        min-width: 150px; /* Largura mínima para os botões */
+    }
+    .btn-reambar {
+        background-color: #00BFFF; /* Azul para o protocolo */
+        color: #1a1a1a;
+        border: none;
+    }
+    .btn-dinosaurs {
+        background-color: #f7a047; /* Laranja para dinossauros */
+        color: #1a1a1a;
+        border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="terminal-nav">
+      <div class="terminal-logo">
+        <div class="logo terminal-prompt">Alerta</div>
+      </div>
+    </header>
+    <h1>AVISO DE EMERGÊNCIA</h1>
+    <p>Múltiplas brechas na contenção dos dinossauros foram detectadas. Ative o protocolo REambar imediatamente.</p>
+    
+    <div class="button-group">
+      <a href="/REambar" class="btn btn-reambar">Ativar Protocolo REambar</a>
+      <a href="/dinossauros" class="btn btn-dinosaurs">Ver Lista de Dinossauros</a>
+    </div>
+
+    </div>
+</body>
+</html>
