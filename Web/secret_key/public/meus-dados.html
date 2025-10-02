@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meus dados</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f2f5;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            h2 {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 20px;
+            }
+
+            .user-data-box {
+                background-color: #ffffff;
+                padding: 40px;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                max-width: 400px;
+                width: 100%;
+                position: relative;
+                padding-bottom: 60px;
+            }
+
+            .data-list {
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
+            .data-list p {
+                font-size: 1.1em;
+                color: #555;
+                margin: 15px 0;
+            }
+
+            .back-button {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                background-color: transparent;
+                border: none;
+                color: #007bff;
+                cursor: pointer;
+                font-size: 16px;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            .back-button:hover {
+                text-decoration: underline;
+            }
+        </style>
+</head>
+<body>
+    <h2>Meus Dados</h2>
+    <div class="user-data-box">
+        <div class="data-list">
+            <p>Nome: Teste</p>
+            <p>Sobrenome: Dez</p>
+            <p>Telefone: 1234567</p>
+            <p>Email: testedez@ctf.com</p>
+        </div>
+        <a href="/info-conta.html" class="back-button">voltar</a>
+    </div>
+</body>
+</html>
