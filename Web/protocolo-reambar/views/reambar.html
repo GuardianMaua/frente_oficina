@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Jeff, eu já disse para não usar o nome dos dinossauros como senha, não é seguro -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocolo REambar - Autorização</title>
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.2/dist/terminal.min.css" />
+  <style>
+    body { 
+      --primary-color: #00BFFF; 
+      --background-color: #1a1a1a;
+      color: #f0f0f0;
+    }
+    body p, body h2, body h3, body label {
+        color: #f0f0f0 !important; 
+    }
+    body h1{
+        color: #d3760b;
+    }
+    #error-message {
+        color: #ff4136 !important; 
+    }
+    input[type="password"] {
+        background-color: #333;
+        border: 1px solid var(--primary-color);
+        color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PROTOCOLO REambar</h1>
+    <p>Insira o código de autorização para ativar o protocolo.</p>
+    
+    <form action="/REambar" method="POST">
+      <label for="senha">Código:</label>
+      <input type="password" id="senha" name="senha" required>
+      <button type="submit" class="btn btn-primary">Autorizar</button>
+    </form>
+    
+    <div id="error-message" style="display: none; margin-top: 1rem;">
+      Código incorreto.
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('error')) {
+      document.getElementById('error-message').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
+    <!-- De todos os dinossauros que já vi, a Dt-05 sempre foi a minha favorita. -->

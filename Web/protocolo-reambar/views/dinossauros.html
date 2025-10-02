@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Dinossauros</title>
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.2/dist/terminal.min.css" />
+  <style>
+    body { 
+      --primary-color: #f7a047; /* Cor temática para dinossauros */
+      --background-color: #1a1a1a;
+      color: #f0f0f0; 
+    }
+    h1 {
+        color: var(--primary-color) !important;
+    }
+    .terminal-prompt {
+        color: #f0f0f0 !important; 
+    }
+    ul {
+        list-style-type: none; /* Remove bolinhas da lista */
+        padding: 0;
+    }
+    li {
+        margin-bottom: 0.5rem;
+        font-size: 1.1em;
+    }
+    .btn-back {
+        margin-top: 2rem;
+        background-color: #333;
+        color: #f0f0f0;
+        border: 1px solid #555;
+    }
+    .btn-back:hover {
+        background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="terminal-nav">
+      <div class="terminal-logo">
+        <div class="logo terminal-prompt">Dinossauros</div>
+      </div>
+    </header>
+    <h1>Lista de Dinossauros Conhecidos</h1>
+    <p>Aqui estão alguns dos dinossauros que nossa equipe de contenção monitora.</p>
+    <p>Eles estão separados por seu ID, nome científico e nome individual:</p>
+    <ul>
+      <li>Dt-01 Tyrannosaurus Titanus</li>
+      <li>Dt-02 Velociraptor Celeritas</li>
+      <li>Dt-03 Triceratops Aegis</li>
+      <li>Dt-04 Stegosaurus Satularus</li>
+      <li>Dt-05 Brachiosaurus Scarlectus</li>
+      <li>Da-01 Spinosaurus Hidroquosa</li>
+      <li>Dv-01 Pterodactylus Crono-Alado</li>
+    </ul>
+    <a href="/" class="btn btn-back">Voltar para o Início</a>
+  </div>
+</body>
+</html>
