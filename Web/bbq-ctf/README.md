@@ -42,31 +42,6 @@
 3. **Access the application**:
    - http://localhost (or http://localhost:80)
 
-
-## 🛠️ API Endpoints
-
-### Reviews/Messages API
-
-- **GET** `/messages` - List all reviews
-- **GET** `/messages/:id` - Get specific review
-- **POST** `/messages` - Create new review
-- **PUT** `/messages/:id` - Update review
-- **PATCH** `/messages/:id` - Partial update
-- **DELETE** `/messages/:id` - Delete review
-
-### Example API Usage
-
-```bash
-# Submit a review
-curl -X POST http://localhost/messages \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Great recipe!", "author": "Chef"}'
-
-# Get all reviews
-curl http://localhost/messages
-```
-
-
 ## ⚠️ Disclaimer
 
 This application is designed for educational purposes only. The vulnerability is intentional and part of the learning experience. Do not use these techniques on applications you don't own or have permission to test.
