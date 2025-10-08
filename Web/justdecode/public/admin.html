@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Área Admin</title>
+</head>
+<body>
+  <h1>Área Admin</h1>
+  <pre id="flagArea">Carregando...</pre>
+  <div style="margin-top:12px;">
+    <a href="/dashboard.html">Voltar ao Dashboard</a>
+  </div>
+  <button id="logout" style="margin-top:12px;">Logout</button>
+
+  <script>
+    const TOKEN_KEY = 'ctf_token';
+    async function loadFlag() {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) return window.location.href = '/login.html';
+
+      const res = await fetch('/api/users/admin', { headers: { 'Authorization': `Bearer ${token}` } });
+      const data = await res.json();
+
+      if (!res.ok) {
+        document.getElementById('flagArea').innerText = data.error || 'Acesso negado.';
+        return;
+      }
+      document.getElementById('flagArea').innerText = data.flag || JSON.stringify(data);
+    }
+
+    document.getElementById('logout').addEventListener('click', () => {
+      localStorage.removeItem(TOKEN_KEY);
+      window.location.href = '/login.html';
+    });
+
+    loadFlag();
+  </script>
+</body>
+</html>
