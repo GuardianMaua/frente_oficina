@@ -1,0 +1,11 @@
+
+
+FLAG{4_P1lul4_D3gr4d4_4_M3n73}
+
+Status das Cobaias:
+
+    Cobaia 07: Apresenta degradação neurológica acelerada e picos de agressividade incontrolável após a administração da dose 4.
+
+    Cobaia 12: Logs de monitoramento vital foram editados. Dados de frequência cardíaca e atividade cerebral são inconsistentes com a observação direta. Suspeita de ocultação de falhas.
+
+    Análise Toxicológica - Cobaia 04: Metabólitos de compostos neurotóxicos não declarados encontrados na corrente sanguínea, possível causa da morte. A fórmula original deve ser alterada.
