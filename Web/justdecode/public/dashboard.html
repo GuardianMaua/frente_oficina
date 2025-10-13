@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <p id="hello"></p>
+  <p id="role"></p>
+  <div id="adminLink" style="display:none; margin-top:12px;">
+    <a href="/admin.html">Abrir área Admin</a>
+  </div>
+  <button id="logout">Logout</button>
+
+  <script>
+  const api = "/api/users";
+  const TOKEN_KEY = 'ctf_token';
+
+  async function load() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return location.href = '/login.html';
+
+    
+    const res = await fetch(`${api}/me`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) { localStorage.removeItem(TOKEN_KEY); return location.href = '/login.html'; }
+
+    document.getElementById('hello').innerText = 'Você está logado.';
+    document.getElementById('role').innerText  = 'Dica: inspecione a pagina';
+
+    
+    document.getElementById('logout').onclick = () => {
+      localStorage.removeItem(TOKEN_KEY);
+      location.href = '/login.html';
+    };
+  }
+  load();
+</script>
+</body>
+</html>
