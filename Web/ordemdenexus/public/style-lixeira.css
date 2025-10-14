@@ -1,0 +1,27 @@
+/* /public/style-lixeira.css (Tema: Minimalista - Lixeira) */
+body {
+    font-family: 'Consolas', 'Monospace', monospace;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 20px;
+    line-height: 1.5;
+}
+h1 {
+    font-size: 1.5em;
+    color: #000;
+}
+hr {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+}
+p {
+    margin: 5px 0;
+}
+a {
+    color: blue;
+    text-decoration: underline;
+}
+span {
+    font-size: 0.9em;
+    color: #666;
+}
