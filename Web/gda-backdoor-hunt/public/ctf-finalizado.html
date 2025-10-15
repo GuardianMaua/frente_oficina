@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concluído!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        .action-button {
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 10px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="p-4 flex flex-col items-center justify-start min-h-screen space-y-8 pt-20">
+    
+    <header class="text-center w-full max-w-4xl">
+        <h2 class="text-5xl font-extrabold text-green-400 mb-4 sm:text-4xl">
+            <svg class="inline w-10 h-10 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Parabéns, você concluiu o CTF!
+        </h2>
+        <img
+    src="assets/invincible.gif"
+    alt="GIF de celebração"
+    class="mx-auto mt-6 w-full max-w-sm rounded-lg shadow-lg"
+    >
+</body>
+</html>
