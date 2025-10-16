@@ -13,7 +13,6 @@ app.use(cookieParser());
 
 let messages = [];
 
-// In-memory session storage
 const sessions = new Map();
 
 function findIndex(id) {
