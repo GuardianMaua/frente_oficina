@@ -11,8 +11,7 @@ services:
   target:
     build: ./target
     ports:
-      - "21:21"
-      - "21100-21110:21100-21110"
+      - "22:22"
     networks:
       - ctf-network
     hostname: target

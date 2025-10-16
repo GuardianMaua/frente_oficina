@@ -2,38 +2,45 @@ FROM ubuntu:22.04
 
 # Install required packages
 RUN apt-get update && apt-get install -y \
-    vsftpd \
+    openssh-server \
     inotify-tools \
     sudo \
     bash \
+    db-util \
     && rm -rf /var/lib/apt/lists/*
 
 # Create ctfuser with password ctfpass
-RUN useradd -m -s /bin/bash ctfuser && \
-    echo "ctfuser:ctfpass" | chpasswd
+RUN useradd -m -s /bin/bash chef && \
+    echo "chef:password" | chpasswd
 
 # Create uploads directory and set permissions
-RUN mkdir -p /home/ctfuser/uploads && \
-    chown ctfuser:ctfuser /home/ctfuser/uploads && \
-    chmod 755 /home/ctfuser/uploads
+RUN mkdir -p /home/chef/uploads && \
+    chown chef:chef /home/chef/uploads && \
+    chmod 755 /home/chef/uploads
 
-# Configure vsftpd
-COPY vsftpd.conf /etc/vsftpd.conf
+# Configure SSH server
+RUN mkdir /var/run/sshd && \
+    echo 'Port 22' > /etc/ssh/sshd_config && \
+    echo 'PermitRootLogin no' >> /etc/ssh/sshd_config && \
+    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
+    echo 'PubkeyAuthentication yes' >> /etc/ssh/sshd_config && \
+    echo 'X11Forwarding no' >> /etc/ssh/sshd_config && \
+    echo 'PrintMotd no' >> /etc/ssh/sshd_config
 
 # Configure sudoers for ctfuser
-RUN echo "ctfuser ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ctfuser && \
-    chmod 440 /etc/sudoers.d/ctfuser
+RUN echo "chef ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/chef && \
+    chmod 440 /etc/sudoers.d/chef
 
 # Create root flag
 RUN echo "MAUA{ch4lleng3C0mpl3t3d}" > /root/root.txt && \
     chmod 600 /root/root.txt
 
-# Copy entrypoint script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Create startup script that runs SSH server in background
+RUN echo '#!/bin/bash\necho "Starting SSH server..."\n/usr/sbin/sshd -D &\necho "SSH server started in background"\necho "Container will stay running..."\nwhile true; do sleep 30; done' > /run-ssh.sh && \
+    chmod +x /run-ssh.sh
 
-# Expose FTP ports
-EXPOSE 21 21100-21110
+# Expose SSH port
+EXPOSE 22
 
-# Start services
-ENTRYPOINT ["/entrypoint.sh"]
+# Start the service
+CMD ["/run-ssh.sh"]
