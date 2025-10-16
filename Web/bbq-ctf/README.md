@@ -14,57 +14,10 @@
 
 ### Local Development
 
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-2. **Start the server**:
-   ```bash
-   npm start
-   ```
-
-3. **Access the application**:
-   - Main site: http://localhost:80
-
-### Docker Deployment
-
-1. **Build the image**:
-   ```bash
-   docker build -t bbq .
-   ```
-
-2. **Run the container**:
-   ```bash
-   docker run -p 80:80 --name bbq-container bbq
-   ```
+#  docker-compose up --build
 
 3. **Access the application**:
    - http://localhost (or http://localhost:80)
-
-
-## 🛠️ API Endpoints
-
-### Reviews/Messages API
-
-- **GET** `/messages` - List all reviews
-- **GET** `/messages/:id` - Get specific review
-- **POST** `/messages` - Create new review
-- **PUT** `/messages/:id` - Update review
-- **PATCH** `/messages/:id` - Partial update
-- **DELETE** `/messages/:id` - Delete review
-
-### Example API Usage
-
-```bash
-# Submit a review
-curl -X POST http://localhost/messages \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Great recipe!", "author": "Chef"}'
-
-# Get all reviews
-curl http://localhost/messages
-```
 
 
 ## ⚠️ Disclaimer
