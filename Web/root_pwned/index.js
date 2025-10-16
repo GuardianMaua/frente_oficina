@@ -103,10 +103,10 @@ app.get("/secreto", checkAuth, (req, res) => {
 // ETAPA 2: RCE (Remote Code Execution) - AGORA USANDO POST
 
 // Quando o usuário ACESSA a página, mostramos o formulário (GET)
-app.get("/admin/ferramentas-rede", checkAuth, (req, res) => {
+app.get("/admin/ferramenta-rede", checkAuth, (req, res) => {
     let form = `
         <h1>Ferramenta de Diagnóstico de Rede</h1>
-        <form method="POST" action="/admin/ferramentas-rede">
+        <form method="POST" action="/admin/ferramenta-rede">
             <label for="host">Endereço para executar:</label>
             <input type="text" id="host" name="host" size="50">
             <button type="submit">Executar</button>
@@ -117,12 +117,12 @@ app.get("/admin/ferramentas-rede", checkAuth, (req, res) => {
 });
 
 // Quando o usuário SUBMETE o formulário, processamos o comando (POST)
-app.post("/admin/ferramentas-rede", checkAuth, (req, res) => {
+app.post("/admin/ferramenta-rede", checkAuth, (req, res) => {
     // A única mudança aqui é pegar o 'host' do CORPO da requisição
     const host = req.body.host;
     let form = `
         <h1>Ferramenta de Diagnóstico de Rede</h1>
-        <form method="POST" action="/admin/ferramentas-rede">
+        <form method="POST" action="/admin/ferramenta-rede">
             <label for="host">Endereço para executar:</label>
             <input type="text" id="host" name="host" size="50" value="${host || ''}">
             <button type="submit">Executar</button>
