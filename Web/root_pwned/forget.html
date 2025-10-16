@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Recuperar Senha</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .login-box h2 {
+            margin: 0 0 20px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .login-box label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-box button:hover {
+            background: #0056b3;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .message {
+            margin-top: 20px;
+            /* dá mais espaço acima */
+            padding: 10px;
+            /* espaço interno */
+            text-align: center;
+            /* centraliza o texto */
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 6px;
+            /* cantos arredondados */
+        }
+
+        .success {
+            color: green;
+            background: #e6ffe6;
+            /* fundo verde claro */
+        }
+
+        .error {
+            color: red;
+            background: #ffe6e6;
+            /* fundo vermelho claro */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-box">
+        <h2>Recuperar Senha</h2>
+        <form id="forgetUser" method="POST" action="/forget">
+            <label for="username">Usuário</label>
+            <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+
+            <button type="submit">Enviar email de redefinição</button>
+            <a href="/login" class="back-link">Voltar ao login</a>
+        </form>
+        <div id="message" class="message"></div>
+        <script>
+            document.getElementById("forgetUser").addEventListener("submit", async e => {
+                e.preventDefault();
+                const response = await fetch("/forget", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: document.getElementById("username").value,
+                    })
+                });
+                const dados = await response.json();
+                const user = document.getElementById("username").value.trim()
+                const message = document.getElementById("message");
+                if (dados.success) {
+                    message.className = "message success";
+                    message.textContent = dados.message;
+                } else {
+                    message.className = "message error";
+                    message.textContent = dados.message;
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

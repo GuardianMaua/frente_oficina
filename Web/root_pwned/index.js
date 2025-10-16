@@ -50,10 +50,23 @@ app.post("/login", (req, res) => {
     req.session.username = user.username;
     res.status(200).json({ message: "Login bem-sucedido!", success: true, redirect:"/secreto"});
   } else {
-    res.status(401).json({ message: "Usuário e/ou senha incorretos!", success: false});
+    res.status(200).json({ message: "Usuário e/ou senha incorretos!", success: false});
   }  
 });
-
+app.get("/forget", (req, res) => { 
+  res.sendFile(__dirname+'/forget.html');
+});
+app.post("/forget", (req, res) => {
+  const { username,success,message } = req.body;
+  username.toString().trim();
+  console.log(`Pedido de recuperação de senha para o email: ${username}`);
+  const teste = users.find(u => u.username === username);
+  if (teste) {
+    res.status(201).json({username: "", message: "Instruções de recuperação de senha enviadas para o seu email.", success: true});
+  } else {
+    res.status(401).json({username: "", message: "Usuário não encontrado.", success: false});
+  }
+});
 // Middleware para verificar se o usuário está logado
 function checkAuth(req, res, next) {
     if (req.session.isLoggedIn) {
@@ -81,7 +94,7 @@ app.get("/secreto", checkAuth, (req, res) => {
     res.send(`
         <h1>Área Secreta</h1>
         <p>Bem-vindo, ${req.session.username}.</p>
-        <p>Nesse espaço, é possível encontrar documentos internos</p>
+        <p>Nesse espaço, é possível encontrar documentos internos. Sua flag é: FLAG_{brut333}</p>
         <p>Exemplo: <a href="/secreto?arquivo=files/documento_interno.txt">/secreto?arquivo=files/documento_interno.txt</a></p>
         `);
   }
