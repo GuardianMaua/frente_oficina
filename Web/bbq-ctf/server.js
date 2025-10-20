@@ -1,14 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const { nanoid } = require("nanoid");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 const PORT = process.env.PORT || 80;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 let messages = [];
+
+const sessions = new Map();
 
 function findIndex(id) {
     return messages.findIndex(m => m.id === id);
@@ -131,7 +136,7 @@ app.post("/messages", (req, res) => {
     createdAt: now,
     updatedAt: now,
     isXSS: isXSS,
-    flag: isXSS ? "MAUA{XSS_C0MPL3T3D}" : null
+    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null
   };
   messages.push(msg);
   res.status(201).json(msg);
@@ -155,7 +160,7 @@ app.put("/messages/:id", (req, res) => {
     author: author ?? messages[idx].author,
     updatedAt: now,
     isXSS: isXSS,
-    flag: isXSS ? "MAUA{XSS_C0MPL3T3D}" : null
+    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null
   };
   res.json(messages[idx]);
 });
@@ -178,7 +183,7 @@ app.patch("/messages/:id", (req, res) => {
     ...(author !== undefined ? { author } : {}),
     updatedAt: now,
     isXSS: isXSS,
-    flag: isXSS ? "MAUA{XSS_C0MPL3T3D}" : null
+    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null
   };
   res.json(messages[idx]);
 });
@@ -191,6 +196,54 @@ app.delete("/messages/:id", (req, res) => {
   res.json({ deleted });
 });
 
+// Authentication middleware
+function requireAuth(req, res, next) {
+  const sessionId = req.cookies.auth;
+  if (!sessionId || !sessions.has(sessionId)) {
+    return res.redirect('/h1dd3nDir3ct0ry');
+  }
+  next();
+}
+
+// Hidden directory routes
+app.get("/h1dd3nDir3ct0ry", (req, res) => {
+  res.sendFile(__dirname + "/public/admin/login.html");
+});
+
+app.post("/h1dd3nDir3ct0ry/login", (req, res) => {
+  const { username, password } = req.body;
+  
+  if (username === "admin" && password === "password") {
+    const sessionId = nanoid();
+    sessions.set(sessionId, { username: "admin", loginTime: new Date() });
+    res.cookie("auth", sessionId, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
+    res.redirect("/h1dd3nDir3ct0ry/admin");
+  } else {
+    res.status(401).send(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>Login Failed</title></head>
+      <body>
+        <h1>Login Failed</h1>
+        <p>Invalid credentials. <a href="/h1dd3nDir3ct0ry">Try again</a></p>
+      </body>
+      </html>
+    `);
+  }
+});
+
+app.get("/h1dd3nDir3ct0ry/admin", requireAuth, (req, res) => {
+  res.sendFile(__dirname + "/public/admin/admin.html");
+});
+
+app.post("/h1dd3nDir3ct0ry/logout", (req, res) => {
+  const sessionId = req.cookies.auth;
+  if (sessionId) {
+    sessions.delete(sessionId);
+  }
+  res.clearCookie("auth");
+  res.redirect("/h1dd3nDir3ct0ry");
+});
 
 app.use(express.static("public"));
 

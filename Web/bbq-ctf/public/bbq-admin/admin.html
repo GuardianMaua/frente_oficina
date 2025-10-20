@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Southern Comfort Kitchen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .admin-header {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .admin-header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .logout-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .logout-button:hover {
+            background: #c0392b;
+        }
+        .admin-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .access-blocked {
+            background: rgba(231, 76, 60, 0.1);
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .access-blocked h2 {
+            color: #e74c3c;
+            margin: 0 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        .access-blocked p {
+            color: #ecf0f1;
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        .file-listing {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .file-listing h3 {
+            color: #ecf0f1;
+            margin: 0 0 1rem 0;
+            font-size: 1.3rem;
+        }
+        .file-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-name {
+            color: #ecf0f1;
+            font-family: 'Courier New', monospace;
+        }
+        .file-size {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        .hint-box {
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .hint-box h4 {
+            color: #3498db;
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+        }
+        .hint-box p {
+            color: #ecf0f1;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 0.5rem;
+            border-radius: 3px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .status-online {
+            background: #27ae60;
+        }
+        .status-offline {
+            background: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>🛡️ Admin Panel - Southern Comfort Kitchen</h1>
+        <form action="/h1dd3nDir3ct0ry/logout" method="POST" style="display: inline;">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+    
+    <div class="admin-container">
+        <div class="access-blocked">
+            <h2>Admin Panel</h2>
+            <p>The file management interface is currently disabled for security reasons.</p>
+            <p></p>
+        </div>
+        
+        <div class="file-listing">
+            <h3> System Files (Read-Only View)</h3>
+            <div class="file-item">
+                <span class="file-name">config.json</span>
+                <span class="file-size">2.3 KB</span>
+            </div>
+            <div class="file-item">
+                <span class="file-name">logs/access.log</span>
+                <span class="file-size">15.7 MB</span>
+            </div>
+            <div class="file-item">
+                <span class="file-name">backup/system.tar.gz</span>
+                <span class="file-size">45.2 MB</span>
+            </div>
+            <div class="file-item">
+                <span class="file-name">uploads/</span>
+                <span class="file-size">Directory</span>
+            </div>
+        </div>
+    
+        <!-- To remind myself: admin is chef and i am a chef -->
+    </div>
+</body>
+</html>

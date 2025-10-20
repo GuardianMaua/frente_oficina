@@ -128,7 +128,6 @@ class FeedbackManager {
                         font-family: 'Courier New', monospace;
                         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
                     ">
-                        🏆 XSS CHALLENGE COMPLETED! 🏆<br>
                         Flag: ${message.flag}
                     </div>
                 `;

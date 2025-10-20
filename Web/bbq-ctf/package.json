@@ -1,5 +1,5 @@
 {
-  "name": "semana2",
+  "name": "bbq-ctf",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,9 +13,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "nanoid": "3.3.11"
+    "nanoid": "^3.3.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
