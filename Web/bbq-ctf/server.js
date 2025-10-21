@@ -252,11 +252,11 @@ app.post("/h1dd3nDir3ct0ry/logout", (req, res) => {
   res.redirect("/h1dd3nDir3ct0ry");
 });
 
-app.use(express.static("public"));
-
 app.get("/feedback", (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "feedback.html"));
 });
+
+app.use(express.static("public"));
 
 app.listen(PORT, () => {
   console.log(`API running at http://localhost:${PORT}`);
