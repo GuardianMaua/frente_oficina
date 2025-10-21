@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flag Encontrada!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding-top: 50px;
+            overflow: hidden;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .flag-display {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #a233d6;
+            margin-bottom: 25px;
+        }
+
+        .continue-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .continue-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Parabéns, você encontrou a Flag!</h2>
+    <p class="flag-display" id="flag-display"></p>
+    <br>
+    <a href="info-conta.html" class="continue-btn">Continuar</a>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const flag = urlParams.get('flag');
+        if (flag) {
+            document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById('flag-display').textContent = flag;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+/* /public/style-base-darknet.css (Tema: Darknet/Terminal - BASE) */
+
+:root {
+    --dn-background: #000000;
+    --dn-text: #00ff00; /* Verde Neon para Leitura */
+    --dn-accent: #ff0000; /* Vermelho Alerta/Perigo */
+    --dn-border: #333333;
+    --dn-card: #0a0a0a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Consolas', 'Monospace', monospace;
+    background-color: var(--dn-background);
+    color: var(--dn-text);
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.dn-container {
+    max-width: 700px;
+    width: 100%;
+    background-color: var(--dn-card);
+    padding: 30px;
+    border-radius: 0; /* Sem bordas arredondadas */
+    box-shadow: 0 0 15px var(--dn-accent); /* Brilho vermelho */
+    border: 1px solid var(--dn-accent);
+}
+
+h1 {
+    color: var(--dn-accent);
+    border-bottom: 1px solid var(--dn-accent);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 5px var(--dn-accent);
+    display: none;
+}
+
+h2 {
+    color: var(--dn-text);
+    margin-top: 20px; /* Aumentado */
+    margin-bottom: 10px;
+}
+
+/* Formulário e Inputs (Espaçamento para o Login) */
+.dn-container form label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px; 
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--dn-text);
+    border-radius: 0;
+    background-color: var(--dn-background);
+    color: var(--dn-text);
+    font-size: 16px;
+    margin-bottom: 15px; /* Espaçamento abaixo do campo */
+}
+
+input[type="submit"] {
+    background-color: var(--dn-accent);
+    color: var(--dn-background);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+input[type="submit"]:hover {
+    opacity: 0.8;
+}
+
+/* Links (Avisos de Redirecionamento) */
+a {
+    color: var(--dn-text);
+    text-decoration: underline;
+}
+
+/* Destaques para Flags e Pistas */
+.flag-container {
+    padding: 20px;
+    background-color: var(--dn-background);
+    border: 1px solid var(--dn-text);
+    margin-top: 20px;
+}
+
+.flag-value {
+    color: var(--dn-accent); /* Flags em vermelho para destacar o risco */
+    font-size: 1.3em;
+    font-weight: bold;
+    word-break: break-all;
+    text-shadow: 0 0 5px var(--dn-accent);
+}
+
+.hint-box {
+    padding: 15px;
+    margin-top: 20px;
+    background-color: var(--dn-accent);
+    color: var(--dn-background); /* Texto preto no fundo vermelho */
+    border-radius: 0;
+    font-weight: bold;
+}
+
+.logo-container {
+    text-align: center; /* Centraliza a imagem dentro do header */
+    margin-bottom: 20px;
+    padding-top: 20px; /* Adiciona um respiro em cima */
+}
+
+.header-logo {
+    /* Dimensões solicitadas (médias) */
+    width: 400px; 
+    height: 300px;
+    
+    /* Garantia de responsividade */
+    max-width: 90%; /* Limita a largura para não estourar em telas pequenas */
+    height: auto; /* Mantém a proporção ao redimensionar */
+    
+    /* Para centralizar caso o container seja maior que a imagem */
+    display: block; 
+    margin: 0 auto;
+    
+    /* Adicionando um toque de luxo ao redor da logo (opcional) */
+    border: 5px solid #C8A461; /* Borda fina em Ouro Envelhecido */
+    border-radius: 5px; /* Bordas suaves */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra sutil para destaque */
+    object-fit: contain; /* Garante que a imagem caiba na caixa sem ser cortada, preservando a proporção */
+}
+
+.marketplace-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    border-bottom: 1px dashed var(--dn-text);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.marketplace-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--dn-border);
+    font-size: 0.95em;
+}
+.item-code {
+    flex: 0 0 10%; 
+    color: var(--dn-accent);
+}
+.item-description {
+    flex: 0 0 65%; 
+    color: var(--dn-text);
+}
+.item-status {
+    flex: 0 0 25%; 
+    text-align: right;
+}
+.status-low { color: #ffff00; } /* Amarelo */
+.status-high { color: var(--dn-accent); } /* Vermelho */
+.status-service { color: #00ffff; } /* Ciano */
+.status-access { color: #00ff00; } /* Verde */
+
+code {
+    background-color: #222;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    color: var(--dn-text);
+}

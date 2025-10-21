@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso</title>
+    <link rel="stylesheet" href="/style-darknet.css">
+</head>
+<body>
+    <div class="dn-container">
+        <img 
+            src="assets/OrdemdeNexusLogo.jpg" 
+            alt="Logo Ordem de Nexus" 
+            class="header-logo"
+        >
+        <h1>[Acesso Requerido]</h1>
+        <p><strong>Alerta:</strong> Você está aqui por conta e risco, não nos responsabilizaremos por nada que aconteça.</p>
+        <p> Fizz suas credenciais são essenciais para entrar.</p>
+        
+        <form method="POST" action="/painel_de_acesso">
+            <label for="username">Login:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Chave de Criptografia:</label>
+            <input type="password" id="password" name="password" required>
+            <p></p>
+            <input type="submit" value="Login">
+        </form>
+        <p style="text-align: right;">$ Connection: garantiert</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transmição secreta de Viltrumitas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #1a202c;
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+      .container-box {
+        background-color: #2d3748;
+        border: 1px solid #4a5568;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+          0 4px 6px -4px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body class="p-4 flex items-center justify-center min-h-screen">
+    <div class="container-box p-8 md:p-10 rounded-xl w-full max-w-xl">
+      <header class="text-center mb-6">
+        <h2 class="text-3xl font-extrabold text-blue-400 mb-2">
+          Transmissão Secreta Viltrumita
+        </h2>
+      </header>
+
+      <p class="mb-6 text-gray-300 leading-relaxed text-center">
+        A GDA interceptou uma transmissão de dados ultrassecreta de um posto
+        avançado Viltrumita. Os detalhes dessa mensagem podem revelar o próximo
+        passo da invasão, mas o pacote de informações está codificado e precisa
+        ser decifrado com urgência.
+      </p>
+
+      <p id="payload-label" class="hidden"></p>
+      <div id="encoded-payload" class="hidden">
+        O pacote de informações está codificado em Base64
+      </div>
+
+      <form id="flag-form" class="mt-8 pt-6 border-t border-gray-600">
+        <p class="text-lg font-semibold mb-3 text-gray-200">
+          Insira a Chave Decodificada:
+        </p>
+        <div
+          class="flex flex-col md:flex-row gap-3 items-center justify-center"
+        >
+          <input
+            type="text"
+            id="flag-input"
+            required
+            class="flex-grow p-3 rounded-lg border border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500 transition"
+            style="min-width: 250px"
+          />
+          <button
+            type="submit"
+            class="px-6 py-3 rounded-lg font-bold bg-green-600 hover:bg-green-700 text-white transition-all shadow-md hover:shadow-green-500/50"
+          >
+            <svg
+              class="inline w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            Enviar Chave
+          </button>
+        </div>
+        <div
+          id="message"
+          class="mt-4 p-3 rounded-lg text-sm text-center font-medium hidden"
+        ></div>
+      </form>
+    </div>
+
+    <script>
+      function showMessage(element, message, type) {
+        element.textContent = message;
+        element.classList.remove(
+          "hidden",
+          "bg-red-700",
+          "bg-green-700",
+          "text-yellow-300"
+        );
+        element.classList.add("block");
+
+        switch (type) {
+          case "success":
+            element.classList.add("bg-green-700", "text-white");
+            break;
+          case "error":
+            element.classList.add("bg-red-700", "text-white");
+            break;
+          case "info":
+          default:
+            element.classList.add("text-yellow-300", "bg-gray-800");
+            break;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const payload = urlParams.get("payload");
+        const encodedPayloadElement =
+          document.getElementById("encoded-payload");
+        const messageElement = document.getElementById("message");
+
+        if (payload) {
+          encodedPayloadElement.textContent = payload;
+        } else {
+          encodedPayloadElement.textContent =
+            "Erro: Payload Base64 não encontrado na URL. Retorne ao Desafio 02.";
+          encodedPayloadElement.classList.remove("text-yellow-300");
+          encodedPayloadElement.classList.add("text-red-400");
+        }
+
+        document
+          .getElementById("flag-form")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const flag = document.getElementById("flag-input").value.trim();
+
+            try {
+              const response = await fetch("/verificar-flag-03", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ flag: flag }),
+              });
+
+              const data = await response.json();
+
+              if (data.success) {
+                showMessage(
+                  messageElement,
+                  "Chave Correta! Redirecionando para o Desafio 04...",
+                  "success"
+                );
+
+                setTimeout(() => {
+                  window.location.href = data.redirectUrl;
+                }, 1500);
+              } else {
+                showMessage(
+                  messageElement,
+                  data.message || "Chave Incorreta. Tente novamente.",
+                  "error"
+                );
+              }
+            } catch (error) {
+              console.error("Erro de comunicação:", error);
+              showMessage(
+                messageElement,
+                "Erro de comunicação com o servidor.",
+                "error"
+              );
+            }
+          });
+      });
+    </script>
+  </body>
+</html>

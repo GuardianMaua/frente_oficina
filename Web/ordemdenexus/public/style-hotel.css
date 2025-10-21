@@ -1,0 +1,436 @@
+/* Paleta de Cores de Luxo Refinada: */
+/* Fundo Geral: #F8F4F0 (Creme Claro/Bege Quente) */
+/* Cor Principal (Tradição/Fundo): #1D3557 (Azul Marinho Profundo, Elegante) */
+/* Destaque (Ouro/Opulência): #C8A461 (Ouro Envelhecido/Champagne Gold) */
+/* Cor Secundária: #A8DADC (Azul Claro Suave) */
+/* Texto: #333333 (Preto Chique) */
+/* Fundo de Seção: #FFFFFF (Branco Puro) ou #FAF9F6 (Off-White Quente) */
+
+/* --- Fontes de Luxo --- */
+/* Fontes sugeridas para um toque clássico/luxuoso: */
+/* Títulos: 'Playfair Display', serif (Elegante, alto contraste) */
+/* Corpo: 'Cormorant Garamond', serif ou 'Lato', sans-serif (Limpo, legível, sofisticado) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+
+/* --- Estilos Gerais --- */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+    background-color: #F8F4F0; /* Creme Claro/Luxo */
+    line-height: 1.7; /* Mais espaço para leitura elegante */
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+    color: #1D3557; /* Azul Marinho Profundo */
+    text-align: center;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 4em; /* Mais imponente */
+    margin-bottom: 0.1em;
+    letter-spacing: 2px;
+    display: none;
+}
+
+h2 {
+    font-size: 2.5em;
+    padding-top: 30px;
+    border-bottom: 3px double #C8A461; /* Linha dupla em Ouro Envelhecido */
+    display: inline-block;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+p {
+    margin-bottom: 1.2em;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+section {
+    padding: 60px 5%; /* Mais padding para "respiro" */
+    max-width: 1400px;
+    margin: 30px auto;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra mais suave e luxuosa */
+}
+
+/* --- Botões (Links) Luxuosos --- */
+.button {
+    display: inline-block;
+    padding: 12px 30px;
+    margin: 15px 10px;
+    text-decoration: none;
+    border-radius: 30px; /* Borda arredondada suave */
+    font-weight: bold;
+    transition: all 0.4s ease-in-out;
+    border: 2px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.05em;
+}
+
+.primary-button {
+    background: linear-gradient(135deg, #C8A461, #B28E4D); /* Gradiente Ouro */
+    color: #FFFFFF;
+    border-color: #C8A461;
+    box-shadow: 0 4px 15px rgba(200, 164, 97, 0.4);
+}
+
+.primary-button:hover {
+    background: linear-gradient(135deg, #B28E4D, #C8A461);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(200, 164, 97, 0.6);
+}
+
+.secondary-button {
+    background-color: transparent;
+    color: #1D3557;
+    border-color: #1D3557;
+}
+
+.secondary-button:hover {
+    background-color: #1D3557;
+    color: #F8F4F0;
+}
+
+/* --- Header e Footer (Azul Marinho) --- */
+header {
+    background-color: #1D3557; /* Azul Marinho Principal */
+    color: #F8F4F0;
+    text-align: center;
+    padding: 80px 0; /* Mais altura */
+    border-bottom: 5px solid #C8A461; /* Detalhe em Ouro */
+}
+
+header p {
+    font-style: italic;
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 40px 0;
+    background-color: #333333;
+    color: #F8F4F0;
+    border-top: 5px solid #C8A461;
+}
+
+/* --- Localização --- */
+#localizacao {
+    text-align: center;
+}
+
+.location-container p {
+    display: inline-block;
+    margin: 10px 20px;
+    padding: 8px 0;
+    font-size: 1.2em;
+    border-right: none; /* Remove a borda vertical */
+    border-bottom: 1px dotted #A8DADC; /* Adiciona uma linha pontilhada sutil */
+}
+
+.location-container span {
+    font-size: 1.8em;
+    margin-left: 8px;
+    transition: transform 0.2s;
+}
+
+.location-container span:hover {
+    transform: scale(1.1);
+}
+
+.google-map {
+    border: 3px solid #C8A461; /* Borda em Ouro */
+    border-radius: 5px;
+}
+
+/* --- Amenidades --- */
+.amenity-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.amenity-card {
+    border: 1px solid #ddd;
+    padding: 25px;
+    background-color: #FAF9F6; /* Off-White Quente */
+    border-left: 8px solid #C8A461; /* Barra em Ouro */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s;
+}
+
+.amenity-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.amenity-card h3 {
+    color: #1D3557;
+    text-align: left;
+    border-bottom: 1px solid #A8DADC;
+    padding-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.amenity-card li {
+    padding: 8px 0;
+    font-size: 1em;
+    border-bottom: 1px dotted #eee;
+}
+
+/* --- Quartos e Suítes --- */
+.room-card-container {
+    gap: 40px;
+}
+
+.room-card {
+    border: 1px solid #E0E0E0;
+    padding: 30px;
+    background-color: #FFFFFF;
+    border-top: 6px solid #1D3557;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.room-card h3 {
+    color: #1D3557;
+    border-bottom: 2px solid #C8A461;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    letter-spacing: 0.5px;
+}
+
+.room-card .ideal-for {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.room-card h4 {
+    text-align: left;
+    color: #C8A461;
+    margin-top: 20px;
+    font-weight: 400;
+}
+
+.room-card ul li {
+    font-style: italic;
+    color: #555;
+    padding: 5px 0;
+}
+
+.price-list {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #F8F4F0; /* Fundo Creme */
+    border-radius: 5px;
+    border: 1px dashed #C8A461; /* Borda sutil de luxo */
+}
+
+.price-list h4 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.price-list p {
+    font-weight: 700;
+    color: #1D3557;
+    font-size: 1.2em;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* Destaque para as suítes mais luxuosas/familiares */
+.luxury-suite { border-top-color: #C8A461; } /* Ouro */
+.family-suite { border-top-color: #A8DADC; } /* Azul Claro para diferenciar */
+
+/* --- Atividades (Tabela) --- */
+#atividades table {
+    margin-top: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+#atividades th, #atividades td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+#atividades thead th {
+    background-color: #1D3557;
+    color: #F8F4F0;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+#atividades tbody tr:nth-child(even) {
+    background-color: #FAF9F6;
+}
+
+/* --- Menu Gastronomia (Detalhes Finos) --- */
+.menu-section {
+    padding: 30px;
+    border: 1px solid #eee;
+    background-color: #FAF9F6;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
+}
+
+.menu-section h3 {
+    text-align: left;
+    font-size: 1.8em;
+    border-bottom: 2px solid #C8A461;
+    margin-bottom: 20px;
+    color: #1D3557;
+}
+
+.menu-section h3 small {
+    color: #666;
+    font-size: 0.6em;
+    font-style: normal;
+}
+
+.menu-section table {
+    margin-top: 15px;
+}
+
+.menu-section th, .menu-section td {
+    padding: 12px;
+    border: none;
+    border-bottom: 1px dotted #A8DADC;
+}
+
+.menu-section th {
+    background-color: #F8F4F0;
+    color: #1D3557;
+    font-weight: 700;
+}
+
+.menu-section td:last-child {
+    font-weight: bold;
+    color: #C8A461; /* Preços em Ouro */
+    text-align: right;
+}
+
+.menu-section h4 {
+    color: #C8A461;
+    text-transform: uppercase;
+    font-size: 1.4em;
+    margin-top: 30px;
+}
+
+/* Estilos específicos para Adega e Chá da Tarde */
+.wine-cellar, .tea-time {
+    background-color: #FFFDEE; /* Off-White Mais Claro */
+    border: 2px solid #C8A461; /* Destaque em Ouro */
+    border-left: 8px solid #C8A461;
+}
+
+.wine-cellar p, .tea-time p {
+    font-weight: 700;
+    color: #1D3557;
+    font-size: 1.1em;
+}
+
+.logo-container {
+    text-align: center; /* Centraliza a imagem dentro do header */
+    margin-bottom: 20px;
+    padding-top: 20px; /* Adiciona um respiro em cima */
+}
+
+.header-logo {
+    /* Dimensões solicitadas (médias) */
+    width: 400px; 
+    height: 300px;
+    
+    /* Garantia de responsividade */
+    max-width: 90%; /* Limita a largura para não estourar em telas pequenas */
+    height: auto; /* Mantém a proporção ao redimensionar */
+    
+    /* Para centralizar caso o container seja maior que a imagem */
+    display: block; 
+    margin: 0 auto;
+    
+    /* Adicionando um toque de luxo ao redor da logo (opcional) */
+    border: 5px solid #C8A461; /* Borda fina em Ouro Envelhecido */
+    border-radius: 5px; /* Bordas suaves */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra sutil para destaque */
+    object-fit: contain; /* Garante que a imagem caiba na caixa sem ser cortada, preservando a proporção */
+}
+
+/* --- Responsividade (Mantendo a Elegância em Mobile) --- */
+@media (max-width: 900px) {
+    h1 {
+        font-size: 3em;
+    }
+    .room-card {
+        flex: 1 1 calc(50% - 30px);
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.2em;
+    }
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+    
+    section {
+        padding: 40px 3%; /* Menos respiro nas laterais */
+    }
+
+    .room-card {
+        flex: 1 1 100%;
+    }
+
+    .amenity-grid {
+        gap: 20px;
+    }
+    
+    .price-list p {
+        font-size: 1em;
+    }
+    
+    .menu-section th, .menu-section td {
+        display: block;
+        width: 100%;
+        text-align: left;
+        border-bottom: none;
+    }
+
+    .header-logo {
+        /* Diminui um pouco o tamanho em mobile se necessário, mantendo a responsividade */
+        max-width: 100%;
+        width: 300px; /* Ajusta a largura base para mobile */
+        height: auto;
+    }
+    
+    .menu-section td:last-child {
+        text-align: left;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+    }
+    
+    .menu-section th {
+        display: none; /* Esconde o cabeçalho em mobile para melhor visualização */
+    }
+}

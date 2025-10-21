@@ -58,19 +58,19 @@ RUN echo "MAUA{ch4lleng3C0mpl3t3d}" > /root/root.txt && \
 
 # Create startup script that runs both services
 RUN echo '#!/bin/bash\n\
-echo "Starting SSH server..."\n\
-/usr/sbin/sshd -D &\n\
-echo "SSH server started in background"\n\
-\n\
-echo "Starting web server..."\n\
-cd /app\n\
-su -s /bin/bash -c "npm start" nodejs &\n\
-echo "Web server started in background"\n\
-\n\
-echo "Both services are running..."\n\
-echo "Web server: http://localhost:80"\n\
-echo "SSH target: ssh chef@localhost -p 22 (password: password)"\n\
-while true; do sleep 30; done' > /run-services.sh && \
+    echo "Starting SSH server..."\n\
+    /usr/sbin/sshd -D &\n\
+    echo "SSH server started in background"\n\
+    \n\
+    echo "Starting web server..."\n\
+    cd /app\n\
+    su -s /bin/bash -c "npm start" nodejs &\n\
+    echo "Web server started in background"\n\
+    \n\
+    echo "Both services are running..."\n\
+    echo "Web server: http://localhost:80"\n\
+    echo "SSH target: ssh chef@localhost -p 22 (password: password)"\n\
+    while true; do sleep 30; done' > /run-services.sh && \
     chmod +x /run-services.sh
 
 # Expose both ports
@@ -78,7 +78,7 @@ EXPOSE 22 80
 
 # Health check for web service
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:80/messages || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:80/messages || exit 1
 
 # Start both services
 CMD ["/run-services.sh"]

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alterar Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .edit-data-box {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .half-width {
+            flex-grow: 1;
+            width: calc(50% - 5px);
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .back-button, .save-button {
+            background-color: transparent;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .save-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .back-button:hover, .save-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Alterar Dados</h2>
+    <div class="edit-data-box">
+        <form id="edit-form">
+            <div class="form-group">
+                <input type="text" placeholder="Nome" class="half-width" name="nome">
+                <input type="text" placeholder="Sobrenome" class="half-width" name="sobrenome">
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Telefone" class="full-width" name="telefone">
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="E-mail" class="full-width" name="email">
+            </div>
+            <div class="action-buttons">
+                <a href="/info-conta.html" class="back-button">voltar</a>
+                <button type="submit" class="save-button">Alterar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('edit-form');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert("Dados alterados com sucesso!");
+            form.reset();
+        });
+    </script>
+</body>
+</html>

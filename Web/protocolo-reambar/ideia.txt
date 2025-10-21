@@ -1,0 +1,7 @@
+A minha ideia seria fazer um ctf no estilo jurassic park, onde um dinossauro foge e temos que ativar os protoclos de segurança.
+Conforme fomos ativando, o dinossauro começa a quebrar alguns servidores e novos protoclos tem que ser acionados.
+As flags seriam a posição do dinossauro a cada momento, dizendo qual área, prédio e andar ele está.
+Primeiro teria que fazer um brute force com login a id do dinossaruo e a senha a ser quebrada pra saber onde ele está, 
+depois uma senha criptografada para ativar um lockdown, por fim um privesc para acionar gases soníferos.
+
+Isso deve ficar pra fazer dps das 4 semanas de capacitação

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN - Cofre do Grupo Secreto</title>
+    <link rel="stylesheet" href="/style-darknet.css">
+<body>
+    <div class="dn-container">
+        <h1>// ACESSO AO COFRE PRINCIPAL DE DADOS (NÍVEL 0)</h1>
+        <p style="color: var(--dn-text);">O sistema registrou uma elevação de privilégio. Acesso concedido aos **Planos de Expansão Global**.</p>
+        <p style="color: var(--dn-accent);">Você explorou a vulnerabilidade do cookie de sessão. As informações são suas.</p>
+        
+        <h2>// Arquivo de Logs Mestres</h2>
+        <p>O registro final de todas as transações ilegais e a chave para encerrar o servidor estão aqui:</p>
+        
+        <div class="flag-container">
+            <p>A CHAVE FINAL (ROOT KEY) É: <b id="flag-value-2" class="flag-value">GUARDIAN{F1ZZ_R00T}</b></p>
+        </div>
+
+        <p style="color: var(--dn-text); margin-top: 20px;">Você violou a segurança mais alta. A flag foi salva no seu <code style="font-size: 1.1em;">localStorage</code>.</p>
+        
+        <a href="/logout">[LOGOUT DE EMERGÊNCIA]</a>
+
+    </div>
+
+    <script>
+        const chaveLocal = 'ctf_flag_2';
+        const elementoFlag = document.getElementById('flag-value-2');
+        const novaFlagGerada = elementoFlag.textContent;
+
+        const flagSalva = localStorage.getItem(chaveLocal);
+
+        if (flagSalva && flagSalva !== '$FLAG_PLACEHOLDER') {
+            elementoFlag.textContent = flagSalva;
+        } else if (novaFlagGerada && novaFlagGerada !== '$FLAG_PLACEHOLDER') {
+            localStorage.setItem(chaveLocal, novaFlagGerada);
+        }
+    </script>
+</body>
+</html>
