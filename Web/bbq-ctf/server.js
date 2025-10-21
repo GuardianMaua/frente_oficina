@@ -207,7 +207,7 @@ function requireAuth(req, res, next) {
 
 // Hidden directory routes
 app.get("/h1dd3nDir3ct0ry", (req, res) => {
-  res.sendFile(__dirname + "/public/admin/login.html");
+  res.sendFile(__dirname + "/public/bbq-admin/login.html");
 });
 
 app.post("/h1dd3nDir3ct0ry/login", (req, res) => {
@@ -233,7 +233,7 @@ app.post("/h1dd3nDir3ct0ry/login", (req, res) => {
 });
 
 app.get("/h1dd3nDir3ct0ry/admin", requireAuth, (req, res) => {
-  res.sendFile(__dirname + "/public/admin/admin.html");
+  res.sendFile(__dirname + "/public/bbq-admin/admin.html");
 });
 
 app.post("/h1dd3nDir3ct0ry/logout", (req, res) => {
