@@ -1,104 +1,156 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Robô Viltrumita</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-        .diagnostico-box {
-            background-color: #2d3748;
-            border: 1px solid #4a5568;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #1a202c;
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+      .diagnostico-box {
+        background-color: #2d3748;
+        border: 1px solid #4a5568;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+          0 4px 6px -4px rgba(0, 0, 0, 0.5);
+      }
     </style>
-</head>
-<body class="p-4 flex items-center justify-center min-h-screen">
-    <div class="diagnostico-box p-8 md:p-10 rounded-xl w-full max-w-xl text-center">
-        <header class="mb-6">
-            <h2 class="text-3xl font-extrabold text-blue-400 mb-2">Estação Espacial</h2>
-        </header>
-        
-        <p class="mb-6 text-gray-300 leading-relaxed">
-            Após a traição de Nolan, a GDA precisa obter as coordenadas da Estação Espacial onde o Robô está sendo modificado. A GDA acredita que o Robô injetou algo por essa página.
-        </p>
+  </head>
+  <body class="p-4 flex items-center justify-center min-h-screen">
+    <div
+      class="diagnostico-box p-8 md:p-10 rounded-xl w-full max-w-xl text-center"
+    >
+      <header class="mb-6">
+        <h2 class="text-3xl font-extrabold text-blue-400 mb-2">
+          Estação Espacial
+        </h2>
+      </header>
 
-        
-        <form id="flag-form" class="mt-8 pt-6 border-t border-gray-600">
-            <p class="text-lg font-semibold mb-3 text-gray-200">Insira a Flag 02 Encontrada:</p>
-            <div class="flex flex-col md:flex-row gap-3 items-center justify-center">
-                <input type="text" id="flag-input" placeholder="GDA{...}" required
-                       class="flex-grow p-3 rounded-lg border border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500 transition"
-                       style="min-width: 250px;">
-                <button type="submit"
-                        class="px-6 py-3 rounded-lg font-bold bg-green-600 hover:bg-green-700 text-white transition-all shadow-md hover:shadow-green-500/50">
-                    <svg class="inline w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    Enviar Flag
-                </button> <!-- vspL#~q~0}p~0p&%~#x+ps~N -->
-            </div>
-            <div id="message" class="mt-4 p-3 rounded-lg text-sm text-center font-medium hidden"></div>
-        </form>
+      <p class="mb-6 text-gray-300 leading-relaxed">
+        Após a traição de Nolan, a GDA precisa obter as coordenadas da Estação
+        Espacial onde o Robô está sendo modificado. A GDA acredita que o Robô
+        injetou algo por essa página.
+      </p>
+
+      <form id="flag-form" class="mt-8 pt-6 border-t border-gray-600">
+        <p class="text-lg font-semibold mb-3 text-gray-200">
+          Insira a chave Encontrada:
+        </p>
+        <div
+          class="flex flex-col md:flex-row gap-3 items-center justify-center"
+        >
+          <input
+            type="text"
+            id="flag-input"
+            required
+            class="flex-grow p-3 rounded-lg border border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500 transition"
+            style="min-width: 250px"
+          />
+          <button
+            type="submit"
+            class="px-6 py-3 rounded-lg font-bold bg-green-600 hover:bg-green-700 text-white transition-all shadow-md hover:shadow-green-500/50"
+          >
+            <svg
+              class="inline w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+            Enviar Chave
+          </button>
+          <!-- EBOB_ANB_NHGBEVMNQB -->
+        </div>
+        <div
+          id="message"
+          class="mt-4 p-3 rounded-lg text-sm text-center font-medium hidden"
+        ></div>
+      </form>
     </div>
 
     <script>
-        
-        function showMessage(element, message, type) {
-            element.textContent = message;
-            element.classList.remove('hidden', 'bg-red-700', 'bg-green-700', 'text-yellow-300', 'bg-gray-800');
-            element.classList.add('block');
+      function showMessage(element, message, type) {
+        element.textContent = message;
+        element.classList.remove(
+          "hidden",
+          "bg-red-700",
+          "bg-green-700",
+          "text-yellow-300",
+          "bg-gray-800"
+        );
+        element.classList.add("block");
 
-            switch (type) {
-                case 'success':
-                    element.classList.add('bg-green-700', 'text-white');
-                    break;
-                case 'error':
-                    element.classList.add('bg-red-700', 'text-white');
-                    break;
-                case 'info':
-                default:
-                    element.classList.add('text-yellow-300', 'bg-gray-800');
-                    break;
-            }
+        switch (type) {
+          case "success":
+            element.classList.add("bg-green-700", "text-white");
+            break;
+          case "error":
+            element.classList.add("bg-red-700", "text-white");
+            break;
+          case "info":
+          default:
+            element.classList.add("text-yellow-300", "bg-gray-800");
+            break;
         }
+      }
 
-        document.getElementById('flag-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const flag = document.getElementById('flag-input').value.trim();
-            const messageElement = document.getElementById('message');
-            
-            showMessage(messageElement, 'Verificando...', 'info');
+      document
+        .getElementById("flag-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const flag = document.getElementById("flag-input").value.trim();
+          const messageElement = document.getElementById("message");
 
-            try {
-                const response = await fetch('/verificar-flag-02', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ flag: flag })
-                });
+          showMessage(messageElement, "Verificando...", "info");
 
-                const data = await response.json();
+          try {
+            const response = await fetch("/verificar-flag-02", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ flag: flag }),
+            });
 
-                if (data.success) {
-                    showMessage(messageElement, 'Flag Correta! Redirecionando para o Desafio 03...', 'success');
-                    setTimeout(() => {
-                        window.location.href = data.redirectUrl; 
-                    }, 1500); 
-                } else {
-                    showMessage(messageElement, data.message || 'Flag Incorreta. Tente novamente.', 'error');
-                }
-            } catch (error) {
-                console.error('Erro ao verificar a flag:', error);
-                showMessage(messageElement, 'Erro de comunicação com o servidor.', 'error');
+            const data = await response.json();
+
+            if (data.success) {
+              showMessage(
+                messageElement,
+                "Chave Correta! Redirecionando para o Desafio 03...",
+                "success"
+              );
+              setTimeout(() => {
+                window.location.href = data.redirectUrl;
+              }, 1500);
+            } else {
+              showMessage(
+                messageElement,
+                data.message || "Chave Incorreta. Tente novamente.",
+                "error"
+              );
             }
+          } catch (error) {
+            console.error("Erro ao verificar a flag:", error);
+            showMessage(
+              messageElement,
+              "Erro de comunicação com o servidor.",
+              "error"
+            );
+          }
         });
     </script>
-</body>
+  </body>
 </html>

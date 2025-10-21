@@ -16,32 +16,32 @@ let messages = [];
 const sessions = new Map();
 
 function findIndex(id) {
-    return messages.findIndex(m => m.id === id);
+  return messages.findIndex((m) => m.id === id);
 }
 
 // XSS Detection function
 function detectXSS(text) {
-    const xssPatterns = [
-        /<script[^>]*>.*?<\/script>/gi,
-        /javascript:/gi,
-        /on\w+\s*=/gi,
-        /<iframe[^>]*>/gi,
-        /<object[^>]*>/gi,
-        /<embed[^>]*>/gi,
-        /<img[^>]*onerror/gi,
-        /<svg[^>]*onload/gi,
-        /<body[^>]*onload/gi,
-        /<input[^>]*onfocus/gi,
-        /<form[^>]*onsubmit/gi,
-        /<link[^>]*onload/gi,
-        /<meta[^>]*onload/gi,
-        /<style[^>]*>.*?<\/style>/gi,
-        /expression\s*\(/gi,
-        /url\s*\(/gi,
-        /@import/gi
-    ];
-    
-    return xssPatterns.some(pattern => pattern.test(text));
+  const xssPatterns = [
+    /<script[^>]*>.*?<\/script>/gi,
+    /javascript:/gi,
+    /on\w+\s*=/gi,
+    /<iframe[^>]*>/gi,
+    /<object[^>]*>/gi,
+    /<embed[^>]*>/gi,
+    /<img[^>]*onerror/gi,
+    /<svg[^>]*onload/gi,
+    /<body[^>]*onload/gi,
+    /<input[^>]*onfocus/gi,
+    /<form[^>]*onsubmit/gi,
+    /<link[^>]*onload/gi,
+    /<meta[^>]*onload/gi,
+    /<style[^>]*>.*?<\/style>/gi,
+    /expression\s*\(/gi,
+    /url\s*\(/gi,
+    /@import/gi,
+  ];
+
+  return xssPatterns.some((pattern) => pattern.test(text));
 }
 
 // Work in Progress page
@@ -115,7 +115,7 @@ app.get("/messages", (req, res) => {
 
 // Read one
 app.get("/messages/:id", (req, res) => {
-  const m = messages.find(x => x.id === req.params.id);
+  const m = messages.find((x) => x.id === req.params.id);
   if (!m) return res.status(404).json({ error: "Not found" });
   res.json(m);
 });
@@ -126,7 +126,7 @@ app.post("/messages", (req, res) => {
   if (typeof text !== "string" || text.trim().length === 0) {
     return res.status(400).json({ error: "text is required" });
   }
-  
+
   const isXSS = detectXSS(text);
   const now = new Date().toISOString();
   const msg = {
@@ -136,12 +136,11 @@ app.post("/messages", (req, res) => {
     createdAt: now,
     updatedAt: now,
     isXSS: isXSS,
-    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null
+    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null,
   };
   messages.push(msg);
   res.status(201).json(msg);
 });
-
 
 app.put("/messages/:id", (req, res) => {
   const idx = findIndex(req.params.id);
@@ -151,7 +150,7 @@ app.put("/messages/:id", (req, res) => {
   if (typeof text !== "string" || text.trim().length === 0) {
     return res.status(400).json({ error: "text is required" });
   }
-  
+
   const isXSS = detectXSS(text);
   const now = new Date().toISOString();
   messages[idx] = {
@@ -160,7 +159,7 @@ app.put("/messages/:id", (req, res) => {
     author: author ?? messages[idx].author,
     updatedAt: now,
     isXSS: isXSS,
-    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null
+    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null,
   };
   res.json(messages[idx]);
 });
@@ -171,10 +170,15 @@ app.patch("/messages/:id", (req, res) => {
   if (idx === -1) return res.status(404).json({ error: "Not found" });
 
   const { text, author } = req.body || {};
-  if (text !== undefined && (typeof text !== "string" || text.trim().length === 0)) {
-    return res.status(400).json({ error: "text, if provided, must be non-empty string" });
+  if (
+    text !== undefined &&
+    (typeof text !== "string" || text.trim().length === 0)
+  ) {
+    return res
+      .status(400)
+      .json({ error: "text, if provided, must be non-empty string" });
   }
-  
+
   const isXSS = text !== undefined ? detectXSS(text) : messages[idx].isXSS;
   const now = new Date().toISOString();
   messages[idx] = {
@@ -183,7 +187,7 @@ app.patch("/messages/:id", (req, res) => {
     ...(author !== undefined ? { author } : {}),
     updatedAt: now,
     isXSS: isXSS,
-    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null
+    flag: isXSS ? "hidden directory unlocked: /h1dd3nDir3ct0ry" : null,
   };
   res.json(messages[idx]);
 });
@@ -200,23 +204,26 @@ app.delete("/messages/:id", (req, res) => {
 function requireAuth(req, res, next) {
   const sessionId = req.cookies.auth;
   if (!sessionId || !sessions.has(sessionId)) {
-    return res.redirect('/h1dd3nDir3ct0ry');
+    return res.redirect("/h1dd3nDir3ct0ry");
   }
   next();
 }
 
 // Hidden directory routes
 app.get("/h1dd3nDir3ct0ry", (req, res) => {
-  res.sendFile(__dirname + "/public/admin/login.html");
+  res.sendFile(__dirname + "/public/bbq-admin/login.html");
 });
 
 app.post("/h1dd3nDir3ct0ry/login", (req, res) => {
   const { username, password } = req.body;
-  
+
   if (username === "admin" && password === "password") {
     const sessionId = nanoid();
     sessions.set(sessionId, { username: "admin", loginTime: new Date() });
-    res.cookie("auth", sessionId, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 }); // 24 hours
+    res.cookie("auth", sessionId, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    }); // 24 hours
     res.redirect("/h1dd3nDir3ct0ry/admin");
   } else {
     res.status(401).send(`
@@ -233,7 +240,7 @@ app.post("/h1dd3nDir3ct0ry/login", (req, res) => {
 });
 
 app.get("/h1dd3nDir3ct0ry/admin", requireAuth, (req, res) => {
-  res.sendFile(__dirname + "/public/admin/admin.html");
+  res.sendFile(__dirname + "/public/bbq-admin/admin.html");
 });
 
 app.post("/h1dd3nDir3ct0ry/logout", (req, res) => {
@@ -246,6 +253,10 @@ app.post("/h1dd3nDir3ct0ry/logout", (req, res) => {
 });
 
 app.use(express.static("public"));
+
+app.get("/feedback", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "feedback.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`API running at http://localhost:${PORT}`);

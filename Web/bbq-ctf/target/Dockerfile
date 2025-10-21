@@ -32,7 +32,7 @@ RUN echo "chef ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/chef && \
     chmod 440 /etc/sudoers.d/chef
 
 # Create root flag
-RUN echo "MAUA{ch4lleng3C0mpl3t3d}" > /root/root.txt && \
+RUN echo "GUARDIAN{ch4lleng3C0mpl3t3d}" > /root/root.txt && \
     chmod 600 /root/root.txt
 
 # Create startup script that runs SSH server in background

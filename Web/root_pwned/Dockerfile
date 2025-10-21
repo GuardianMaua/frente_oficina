@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN mkdir -p /home/Guardian && \
-    echo "O adm ficou maluco e criou uma ferramenta para dar ping nas redes, fica no: /admin/ferramenta-rede ---- FLAG_{LFI_WAS_EASY} " > /home/Guardian/lembretes.txt
+    echo "GUARDIAN{LF1_W4S_3ASY}" > /home/Guardian/lembretes.txt
 
 RUN echo "FLAG_{root_has_been_pwned!}" > /root/flag.txt
 

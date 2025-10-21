@@ -1,120 +1,152 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GDA - Acesso de Agentes Sênior</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-        .login-container {
-            background-color: #2d3748;
-            border: 1px solid #4a5568;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #1a202c;
+        color: #e2e8f0;
+        min-height: 100vh;
+      }
+      .login-container {
+        background-color: #2d3748;
+        border: 1px solid #4a5568;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+          0 4px 6px -4px rgba(0, 0, 0, 0.5);
+      }
     </style>
-</head>
-<body class="p-4 flex items-center justify-center min-h-screen">
-    <div class="login-container p-8 md:p-10 rounded-xl w-full max-w-sm text-center">
-        
-        <h2 class="text-3xl font-extrabold text-blue-400 mb-6">
-            GDA - Agência de Defesa Global
-        </h2>
-        <p class="mb-6 text-gray-300">
-            Invada o sistema para descobrir o que Nolan fez.
-        </p>
-        
-        <form id="login-form" class="space-y-6">
-            <div class="form-group">
-                <label for="username" class="block text-sm font-medium text-gray-400 mb-1 text-left">
-                    Usuário:
-                </label>
-                <input type="text" id="username" name="username"
-                       class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-yellow-500 focus:border-yellow-500 transition">
-            </div>
-            
-            <div class="form-group">
-                <label for="password" class="block text-sm font-medium text-gray-400 mb-1 text-left">
-                    Senha:
-                </label>
-                <input type="password" id="password" name="password"
-                       class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-white">
-            </div>
-            
-            <button type="submit"
-                    class="w-full py-3 rounded-lg font-bold bg-green-600 hover:bg-green-700 text-white text-lg transition-all shadow-md hover:shadow-green-500/50">
-                Entrar no Sistema
-            </button>
-            <!-- Tente invadir utilizando SQL Injection -->
-        </form>
-        
-        <p id="error-message" class="mt-4 p-2 rounded-lg text-sm font-semibold hidden"></p>
+  </head>
+  <body class="p-4 flex items-center justify-center min-h-screen">
+    <div
+      class="login-container p-8 md:p-10 rounded-xl w-full max-w-sm text-center"
+    >
+      <h2 class="text-3xl font-extrabold text-blue-400 mb-6">
+        GDA - Agência de Defesa Global
+      </h2>
+      <p class="mb-6 text-gray-300">
+        Invada o sistema para descobrir o que Nolan fez.
+      </p>
+
+      <form id="login-form" class="space-y-6">
+        <div class="form-group">
+          <label
+            for="username"
+            class="block text-sm font-medium text-gray-400 mb-1 text-left"
+          >
+            Usuário:
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-white placeholder-gray-500 focus:ring-yellow-500 focus:border-yellow-500 transition"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            for="password"
+            class="block text-sm font-medium text-gray-400 mb-1 text-left"
+          >
+            Senha:
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-white"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 rounded-lg font-bold bg-green-600 hover:bg-green-700 text-white text-lg transition-all shadow-md hover:shadow-green-500/50"
+        >
+          Entrar no Sistema
+        </button>
+        <!-- Tente invadir utilizando SQL Injection -->
+      </form>
+
+      <p
+        id="error-message"
+        class="mt-4 p-2 rounded-lg text-sm font-semibold hidden"
+      ></p>
     </div>
 
     <script>
-        const form = document.getElementById('login-form');
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const errorMessage = document.getElementById('error-message');
+      const form = document.getElementById("login-form");
+      const usernameInput = document.getElementById("username");
+      const passwordInput = document.getElementById("password");
+      const errorMessage = document.getElementById("error-message");
 
-        function showMessage(message, type) {
-            errorMessage.textContent = message;
-            errorMessage.classList.remove('hidden', 'bg-red-700', 'bg-green-700', 'bg-yellow-700', 'text-white');
-            errorMessage.classList.add('block');
+      function showMessage(message, type) {
+        errorMessage.textContent = message;
+        errorMessage.classList.remove(
+          "hidden",
+          "bg-red-700",
+          "bg-green-700",
+          "bg-yellow-700",
+          "text-white"
+        );
+        errorMessage.classList.add("block");
 
-            switch (type) {
-                case 'success':
-                    errorMessage.classList.add('bg-green-700', 'text-white');
-                    break;
-                case 'error':
-                    errorMessage.classList.add('bg-red-700', 'text-white');
-                    break;
-                case 'loading':
-                    errorMessage.classList.add('bg-yellow-700', 'text-white');
-                    break;
-                case 'info':
-                default:
-                    errorMessage.classList.add('bg-blue-700', 'text-white');
-                    break;
-            }
+        switch (type) {
+          case "success":
+            errorMessage.classList.add("bg-green-700", "text-white");
+            break;
+          case "error":
+            errorMessage.classList.add("bg-red-700", "text-white");
+            break;
+          case "loading":
+            errorMessage.classList.add("bg-yellow-700", "text-white");
+            break;
+          case "info":
+          default:
+            errorMessage.classList.add("bg-blue-700", "text-white");
+            break;
         }
+      }
 
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        showMessage("Autenticando...", "loading");
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            showMessage('Autenticando...', 'loading');
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
 
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
 
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
+          const data = await response.json();
 
-                const data = await response.json();
-
-                if (data.success) {
-                    showMessage('Acesso Concedido! Redirecionando para a Flag 01...', 'success');
-                    setTimeout(() => {
-                        window.location.href = data.redirectUrl;
-                    }, 1000);
-                } else {
-                    showMessage(data.message || 'Falha no login. Credenciais incorretas.', 'error');
-                }
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-                showMessage('Ocorreu um erro de rede. Tente novamente.', 'error');
-            }
-        });
+          if (data.success) {
+            showMessage(
+              "Acesso Concedido! Redirecionando para o próximo desafio...",
+              "success"
+            );
+            setTimeout(() => {
+              window.location.href = data.redirectUrl;
+            }, 1000);
+          } else {
+            showMessage(
+              data.message || "Falha no login. Credenciais incorretas.",
+              "error"
+            );
+          }
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+          showMessage("Ocorreu um erro de rede. Tente novamente.", "error");
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
