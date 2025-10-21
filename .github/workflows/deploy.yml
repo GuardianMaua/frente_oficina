@@ -131,7 +131,7 @@ jobs:
                 if [ -d "backend" ]; then
                   sudo docker run -d --name '${CTF_NAME}'_frontend --network '${CTF_NAME}'_network -p 80:80 -p 22:22 '${CTF_NAME}'_frontend
                 else
-                  sudo docker run -d --name '${CTF_NAME}'_frontend -p 80:80 -p 22:22 '${CTF_NAME}'_frontend
+                  sudo docker run -d --name '${CTF_NAME}'_frontend -p 80:80 -p 2222:2222 '${CTF_NAME}'_frontend
                 fi
               else
                 echo "⚠️  Dockerfile não encontrado para o frontend de ${CTF_NAME}. Ignorando frontend."

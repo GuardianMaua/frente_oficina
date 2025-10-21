@@ -41,7 +41,7 @@ RUN mkdir -p /home/chef/uploads && \
 
 # Configure SSH server
 RUN mkdir /var/run/sshd && \
-    echo 'Port 22' > /etc/ssh/sshd_config && \
+    echo 'Port 2222' > /etc/ssh/sshd_config && \
     echo 'PermitRootLogin no' >> /etc/ssh/sshd_config && \
     echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
     echo 'PubkeyAuthentication yes' >> /etc/ssh/sshd_config && \
@@ -69,12 +69,12 @@ RUN echo '#!/bin/bash\n\
     \n\
     echo "Both services are running..."\n\
     echo "Web server: http://localhost:80"\n\
-    echo "SSH target: ssh chef@localhost -p 22 (password: password)"\n\
+    echo "SSH target: ssh chef@localhost -p 2222 (password: password)"\n\
     while true; do sleep 30; done' > /run-services.sh && \
     chmod +x /run-services.sh
 
 # Expose both ports
-EXPOSE 22 80
+EXPOSE 2222 80
 
 # Health check for web service
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
