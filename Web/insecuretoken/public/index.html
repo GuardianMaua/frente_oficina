@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>CTF Guardian - Início</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 520px; margin: 48px auto; }
+    a, button { padding: 10px 14px; border: 1px solid #333; text-decoration: none; background: #f8f8f8; cursor: pointer; }
+    .row { display: flex; gap: 12px; margin-top: 12px; }
+    .hint { color: #555; margin-top: 22px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>CTF Guardian</h1>
+  <p>Faça login ou crie uma conta para começar.</p>
+  <p>Seu objetico é acessar a página de administrador</p>
+
+  <div class="row">
+    <a href="/login.html">Entrar</a>
+    <a href="/register.html">Criar conta</a>
+    <button id="goDash" style="display:none">Ir para o Dashboard</button>
+  </div>
+
+  
+  <script>
+    (async function () {
+      const token = localStorage.getItem('jwt_token');
+      if (!token) return;
+
+      try {
+        const res = await fetch('/api/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
+        if (res.ok) {
+          document.getElementById('goDash').style.display = 'inline-block';
+          document.getElementById('goDash').onclick = () => window.location.href = '/dashboard.html';
+        }
+      } catch {}
+    })();
+  </script>
+</body>
+</html>
