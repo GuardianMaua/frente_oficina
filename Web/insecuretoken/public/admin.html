@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Área Admin</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 32px auto; }
+    .card { border:1px solid #ddd; padding:16px; margin-top:16px; }
+    .hint { color:#666; font-size:14px; }
+  </style>
+</head>
+<body>
+  <div id="app" style="display:none">
+  <h1>Área de administradores</h1>
+
+  <div class="card">
+    <h3 id="flagArea">Carregando…</h3>
+  </div>
+
+  
+  <div class="card">
+    <h3>Opção para enviar a foto</h3>
+    <form id="avatarForm">
+      <input type="file" id="file" name="file" accept=".png,.jpg,.jpeg" required />
+      <button type="submit" style="margin-top:8px">Enviar</button>
+    </form>
+    <p class="hint">Somente administradores podem alterar o avatar. Aceita .png, .jpg, .jpeg.</p>
+    <div id="uploadMsg" class="hint"></div>
+    <div id="preview"></div>
+  </div>
+
+  
+
+  <div style="margin-top:12px;">
+    <a href="/dashboard.html">Voltar ao Dashboard</a>
+  </div>
+  <button id="logout" style="margin-top:12px;">Logout</button>
+  </div>
+
+<script>
+const TOKEN_KEY = 'jwt_token';
+
+async function ensureAdmin() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) { location.href = '/login.html'; return Promise.reject(); }
+  const res = await fetch('/api/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
+  if (!res.ok) { localStorage.removeItem(TOKEN_KEY); location.href = '/login.html'; return Promise.reject(); }
+  const me = await res.json();
+  if (me.role !== 'admin') { alert('Você precisa ser admin'); location.href = '/dashboard.html'; return Promise.reject(); }
+  return me;
+}
+
+async function loadFlag() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) return location.href = '/login.html';
+
+  const res = await fetch('/api/users/admin', { headers: { 'Authorization': `Bearer ${token}` } });
+  const data = await res.json();
+
+  const area = document.getElementById('flagArea');
+  area.innerText = res.ok ? (data.flag || JSON.stringify(data)) : (data.error || 'Acesso negado.');
+}
+
+document.getElementById('logout').addEventListener('click', () => {
+  localStorage.removeItem(TOKEN_KEY);
+  location.href = '/login.html';
+});
+
+document.getElementById('avatarForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) return location.href = '/login.html';
+
+  const fd = new FormData();
+  const file = document.getElementById('file').files[0];
+  if (!file) return;
+
+  fd.append('file', file);
+
+  const res = await fetch('/api/media/avatar', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: fd
+  });
+  const data = await res.json();
+  const msg = document.getElementById('uploadMsg');
+
+  if (!res.ok) {
+    msg.textContent = data.error || JSON.stringify(data);
+    return;
+  }
+  msg.textContent = data.message || 'OK';
+  if (data.file) {
+    document.getElementById('preview').innerHTML = `<p>Preview:</p><img src="${data.file}" alt="avatar" style="max-width:180px;border:1px solid #ccc;padding:4px;">`;
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await ensureAdmin();
+    document.getElementById('app').style.display = 'block';
+    loadFlag();
+  } catch {}
+});
+
+</script>
+</body>
+</html>
