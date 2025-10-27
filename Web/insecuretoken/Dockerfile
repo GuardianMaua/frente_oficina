@@ -33,17 +33,13 @@ RUN adduser -D -s /bin/sh web && \
     adduser -D -s /bin/bash admin && \
     echo 'ctfuser:ctfpass' | chpasswd && \
     echo 'admin:admin' | chpasswd && \
+    echo 'Port 2222' > /etc/ssh/sshd_config && \
     echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
     echo 'PermitRootLogin no' >> /etc/ssh/sshd_config && \
     (grep -q '^#includedir /etc/sudoers.d' /etc/sudoers || echo '#includedir /etc/sudoers.d' >> /etc/sudoers) && \
-    mkdir -p /opt/flags /opt/hints && \
-    printf 'MAUA{stage1_jwt_token_decoded_admin}\n' > /opt/flags/flag1.txt && \
-    printf 'MAUA{stage2_user_via_ssh}\n' > /opt/flags/flag2.txt && \
     printf 'ctfuser ALL=(root) NOPASSWD: /usr/bin/find\nadmin ALL=(root) NOPASSWD: /usr/bin/find\n' > /etc/sudoers.d/ctf && \
     chmod 0440 /etc/sudoers.d/ctf && \
-    printf 'MAUA{stage3_root_privesc_success}\n' > /root/flag3.txt && \
-    mkdir -p /home/admin && printf 'MAUA{stage2_user_via_ssh}\n' > /home/admin/user.txt && chown admin:admin /home/admin/user.txt && \
-    chmod 0644 /opt/flags/flag1.txt /opt/flags/flag2.txt /home/admin/user.txt && \
+    printf 'GUARDIAN{root_privesc_success}\n' > /root/flag3.txt && \
     chmod 0600 /root/flag3.txt && \
     printf "export PS1='\\u$\\w '\n" > /etc/profile.d/prompt.sh && \
     mkdir -p /home/admin /home/ctfuser && \
@@ -81,7 +77,7 @@ RUN echo '#!/bin/sh' > /app/start-all.sh && \
 
 RUN chmod +x /app/start-all.sh
 
-EXPOSE 80 22 5432
+EXPOSE 80 2222 5432
 
 ENV PORT=80
 ENV DB_HOST=localhost
