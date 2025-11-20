@@ -1,0 +1,57 @@
+/* Tema: âmbar/ardósia limpo */
+:root{
+  --bg:#0b0e12; --panel:#11161d; --ink:#eaeef6; --muted:#a6b3c5;
+  --line:#1d2530; --accent:#ffb454; --accent-2:#5eead4; --radius:16px;
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);}
+
+.container{width:min(1000px,92%);margin:0 auto}
+.header{padding:32px 0 18px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(45deg,var(--accent),#ffd08a)}
+.brand h1{margin:0;font-weight:800;letter-spacing:.5px}
+.muted{color:var(--muted)}
+
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));padding-bottom:38px}
+.card{background:linear-gradient(180deg,#131922,#0f141b);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.list{margin:8px 0 0 18px}
+.list li{margin:6px 0}
+
+.form .field{position:relative;margin:14px 0 18px}
+.field input{
+  width:100%;padding:14px;border-radius:12px;background:#0f1418;border:1px solid #233043;color:var(--ink);outline:none;
+}
+.field label{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);padding:0 6px;background:linear-gradient(#121822,#121822);color:var(--muted);
+  transition:.16s;border-radius:6px;pointer-events:none;
+}
+.field input:focus{border-color:#33455e;box-shadow:0 0 0 2px rgba(94,234,212,.12)}
+.field input:not(:placeholder-shown)+label,.field input:focus+label{top:-9px;transform:none;font-size:12px;color:var(--accent)}
+.help{color:var(--muted);font-size:12px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid #2b3647;
+  background:linear-gradient(180deg,#ffd08a,var(--accent));color:#0b0e12;font-weight:800;cursor:pointer;
+}
+.btn:hover{filter:saturate(1.05)}
+
+.console{
+  margin-top:14px;background:#0a0f15;border:1px solid #1b2430;border-radius:12px;padding:12px;
+  font-family:ui-monospace,Consolas,Menlo,monospace;min-height:88px;white-space:pre-wrap
+}
+
+.footer{padding:18px 0 40px}
+
+/* BG sutil */
+body::before{
+  content:"";position:fixed;inset:-10%;
+  background:
+    radial-gradient(600px 300px at 85% -5%, rgba(255,180,84,.14), transparent 60%),
+    radial-gradient(600px 300px at 10% 110%, rgba(94,234,212,.12), transparent 60%);
+  pointer-events:none;
+  filter: saturate(1.05);
+}
+
+/* (Nada de dicas escondidas aqui 😌) */

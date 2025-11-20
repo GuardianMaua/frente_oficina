@@ -1,0 +1,17 @@
+{
+  "name": "CTFWEB01",
+  "version": "2.0.0",
+  "description": "CTF Web fácil: sem dicas explícitas; descubra o código por recon.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
