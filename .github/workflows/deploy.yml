@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy:
-    if: ${{ contains(fromJson('["EnricoSantarelli","cassmatheuss","LeonardoHDMoura","xandealee"]'), github.actor) }}
+    if: ${{ contains(fromJson('["EnricoSantarelli","cassmatheuss","LeonardoHDMoura","xandealee","IsabellaPassarelli"]'), github.actor) }}
     runs-on: ubuntu-latest
 
     steps:
