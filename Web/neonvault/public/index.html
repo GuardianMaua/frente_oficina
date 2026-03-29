@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTFWEB02 — NEON·VAULT</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <header class="wrap header">
+    <div class="brand">
+      <span class="led"></span>
+      <h1>NEON·VAULT</h1>
+    </div>
+    <p class="muted">interface ɴ-02 · terminal de acesso convidado</p>
+  </header>
+
+  <main class="wrap grid">
+    <section class="panel">
+      <h2>terminal /auth</h2>
+      <form id="loginForm" class="form">
+        <div class="field">
+          <label for="user">user</label>
+          <input id="user" name="user" value="guest" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="pin">pin</label>
+          <input id="pin" name="pin" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" autocomplete="off" />
+        </div>
+        <button class="btn" type="submit">login</button>
+      </form>
+
+      <div class="hr"></div>
+
+      <h2>terminal /vault</h2>
+      <form id="vaultForm" class="form">
+        <div class="field">
+          <label for="pin2">pin (opcional)</label>
+          <input id="pin2" name="pin2" inputmode="numeric" maxlength="4" placeholder="via header ou query" autocomplete="off" />
+        </div>
+        <button class="btn" type="submit">abrir vault</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>console</h2>
+      <pre class="console" id="console"><code>boot:// NEO-CRT v2.1
+⟶ aguardando comandos…</code></pre>
+
+      <div class="hr"></div>
+      <details class="notes">
+        <summary>periféricos</summary>
+        <p>portas expostas, cabeçalhos, respostas… tudo deixa rastros.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p>© ctfweb02 · 1984-2084</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>
